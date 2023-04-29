@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TheFarmingGame.Repositories\TheFarmingGame.Repositories.csproj" />
+    <ProjectReference Include="..\TheFarmingGame.Services\TheFarmingGame.Services.csproj" />
   </ItemGroup>
 
 </Project>
