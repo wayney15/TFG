@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-using Konscious.Security.Cryptography; //Install this package
 using TheFarmingGame.Domains;
 
 //Reference: https://github.com/kmaragon/Konscious.Security.Cryptography
@@ -23,7 +22,7 @@ namespace TheFarmingGame.Services
 
         public static byte[] Hash(string password, string salt)
         {
-            var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password));
+            var argon2 = new Konscious.Security.Cryptography.Argon2i(Encoding.UTF8.GetBytes(password));
             argon2.DegreeOfParallelism = 24;
             argon2.Salt = Encoding.UTF8.GetBytes(salt);
             argon2.KnownSecret = Encoding.UTF8.GetBytes("ISA681");
