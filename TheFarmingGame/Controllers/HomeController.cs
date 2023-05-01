@@ -5,9 +5,22 @@ namespace TheFarmingGame.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Welcome()
+        [Route("[controller]")]
+        public ActionResult Home()
         {
-            return View("../Views/Home/Welcome.cshtml");
+            return View("~/Views/Home.cshtml");
+        }
+
+        [Route("Login")]
+        public ActionResult Login()
+        {
+            return View("~/Views/Login.cshtml");
+        }
+
+        [Route("Register")]
+        public ActionResult Register()
+        {
+            return View("~/Views/Register.cshtml");
         }
     }
 }
