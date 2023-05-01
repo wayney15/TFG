@@ -14,37 +14,3 @@
     
 </body>
 </html>
-
-
-
-
-@* @section Scripts{
-<script>
-    $(document).ready(function(){
-
-    $.ajax({   
-        type:"GET",
-        url: "@Url.Action("GetName")",
-        dataType: "json",
-        success: function(result){
-            console.log(result)
-        },
-        error: function(request, status, error){
-            console.log(status)
-        }
-    });
-    $.ajax({
-        type:"POST",
-        url: "@Url.Action("PostName")",
-        dataType: "json",
-        data: {name: "Turtle"},
-        success: function(result){
-            console.log(result)
-        },
-        error: function(request, status, error){
-            console.log(status)
-        }
-    });
-})
-</script>
-} *@
