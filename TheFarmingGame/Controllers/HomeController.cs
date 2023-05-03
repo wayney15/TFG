@@ -5,22 +5,25 @@ namespace TheFarmingGame.Controllers
 {
     public class HomeController : Controller
     {
-        [Route("[controller]")]
-        public ActionResult Home()
+        [HttpGet("[controller]")]
+        public ContentResult Home()
         {
-            return View("~/Views/Home.cshtml");
+            var html = System.IO.File.ReadAllText("Views/Home.cshtml");
+            return base.Content(html, "text/html");
         }
 
-        [Route("Login")]
-        public ActionResult Login()
+        [HttpGet("Login")]
+        public ContentResult Login()
         {
-            return View("~/Views/Login.cshtml");
+            var html = System.IO.File.ReadAllText("Views/Login.cshtml");
+            return base.Content(html, "text/html");
         }
 
-        [Route("Register")]
-        public ActionResult Register()
+        [HttpGet("Register")]
+        public ContentResult Register()
         {
-            return View("~/Views/Register.cshtml");
+            var html = System.IO.File.ReadAllText("Views/Register.cshtml");
+            return base.Content(html, "text/html");
         }
     }
 }
