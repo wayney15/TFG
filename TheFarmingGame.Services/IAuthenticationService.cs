@@ -7,7 +7,7 @@ using TheFarmingGame.Domains;
 
 namespace TheFarmingGame.Services
 {
-    public interface IAuthorizationService
+    public interface IAuthenticationService
     {
         Task<String> Register();
         Task<User> Login();

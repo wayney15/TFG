@@ -7,7 +7,7 @@ using TheFarmingGame.Domains;
 
 namespace TheFarmingGame.Services
 {
-    public class AuthorizationService : IAuthorizationService
+    public class AuthenticationService : IAuthenticationService
     {
         // add hash and other helper functions here
         public Task<String> Register()
