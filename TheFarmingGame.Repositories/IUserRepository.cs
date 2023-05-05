@@ -5,11 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TheFarmingGame.Domains;
 
-namespace TheFarmingGame.Services
+namespace TheFarmingGame.Repositories
 {
-    public interface IAuthorizationService
+    public interface IUserRepository : IRepositoryBase<User>
     {
-        String Register();
-        User Login();
     }
 }
