@@ -37,14 +37,153 @@ namespace TheFarmingGame.Services
             Console.WriteLine("Sample hash: {0}", SampleHash);
         }
         // add hash and other helper functions here
-        public Task<String> Register(string UserName, string Password, string Alias)
+        public Task<User> Register(string UserName, string Password, string Alias)
         {
-            // call service authorization functions
+            int SChars, UChars, LChars, Nums, Space;
+
+            (SChars, UChars, LChars, Nums, Space) = InputValidation(UserName);
+            if(SChars != 0){
+                return null; //"Invalid input, special characters are not allowed."
+            }
+            else if(UChars < 1){
+                return null; //"Invalid input, at least 1 uppercase character required."
+            }
+            else if(LChars < 1){
+                return null; //"Invalid input, at least 1 lowercase character required."
+            }
+            else if(Nums < 2){
+                return null; //"Invalid input, at least 2 numbers required."
+            }
+            else if(Space != 0){
+                return null; //"Invalid input, spaces are not allowed."
+            }
+            else if(UserName.Length > 30 || UserName.Length < 8){
+                return null; //"Invalid input, usernames must be 8 to 30 characters."
+            }
+            else{
+                Console.Write("Input Username valid.");
+            }
+            
+            (SChars, UChars, LChars, Nums, Space) = InputValidation(Password);
+            if(SChars < 2){
+                return null; //"Invalid input, at least 2 special characters required."
+            }
+            else if(UChars < 1){
+                return null; //"Invalid input, at least 1 uppercase character required."
+            }
+            else if(LChars < 1){
+                return null; //"Invalid input, at least 1 lowercase character required."
+            }
+            else if(Nums < 2){
+                return null; //"Invalid input, at least 2 numbers required."
+            }
+            else if(Space != 0){
+                return null; //"Invalid input, spaces are not allowed."
+            }
+            else if(Password.Length > 30 || Password.Length < 8){
+                return null; //"Invalid input, usernames must be 8 to 30 characters."
+            }
+            else{
+                Console.Write("Input Password valid.");
+            }
+
+            (SChars, UChars, LChars, Nums, Space) = InputValidation(Alias);
+            if(SChars != 0){
+                return null; //"Invalid input, special characters are not allowed."
+            }
+            else if(LChars < 1){
+                return null; //"Invalid input, at least 1 lowercase character required."
+            }
+            else{
+                Console.Write("Input Alias valid.");
+            }
+
+            //Need to execute a command here to see if username already exists
+            //Should we allow multiple users to have the same Alias?
+
             return null;
         }
         public Task<User> Login(string UserName, string Password)
         {
+            int SChars, UChars, LChars, Nums, Space;            
+
+            (SChars, UChars, LChars, Nums, Space) = InputValidation(UserName);
+            if(SChars != 0){
+                return null; //"Invalid input, special characters are not allowed."
+            }
+            else if(UChars < 1){
+                return null; //"Invalid input, at least 1 uppercase character required."
+            }
+            else if(LChars < 1){
+                return null; //"Invalid input, at least 1 lowercase character required."
+            }
+            else if(Nums < 2){
+                return null; //"Invalid input, at least 2 numbers required."
+            }
+            else if(Space != 0){
+                return null; //"Invalid input, spaces are not allowed."
+            }
+            else if(UserName.Length > 30 || UserName.Length < 8){
+                return null; //"Invalid input, usernames must be 8 to 30 characters."
+            }
+            else{
+                Console.Write("Input Username valid.");
+            }
+            
+            (SChars, UChars, LChars, Nums, Space) = InputValidation(Password);
+            if(SChars < 2){
+                return null; //"Invalid input, at least 2 special characters required."
+            }
+            else if(UChars < 1){
+                return null; //"Invalid input, at least 1 uppercase character required."
+            }
+            else if(LChars < 1){
+                return null; //"Invalid input, at least 1 lowercase character required."
+            }
+            else if(Nums < 2){
+                return null; //"Invalid input, at least 2 numbers required."
+            }
+            else if(Space != 0){
+                return null; //"Invalid input, spaces are not allowed."
+            }
+            else if(Password.Length > 30 || Password.Length < 8){
+                return null; //"Invalid input, usernames must be 8 to 30 characters."
+            }
+            else{
+                Console.Write("Input Password valid.");
+            }
+
             return null;
+        }
+
+        public (int, int, int, int, int) InputValidation(string str)
+        {
+            int SChars = 0;
+            int UChars = 0;
+            int LChars = 0;
+            int Nums = 0;
+            int Space = 0;
+            char[] arr = str.ToCharArray();
+            for (int i = 0; i < arr.Length; i++) {
+            if (!Char.IsLetterOrDigit(arr[i])) {
+               SChars = SChars + 1;
+            }
+            if (Char.IsUpper(arr[i])) {
+               UChars = UChars + 1;
+            }
+            if (Char.IsLower(arr[i])) {
+               LChars = LChars + 1;
+            }
+            if (Char.IsDigit(arr[i])) {
+               Nums = Nums + 1;
+            }
+            if (Char.IsWhiteSpace(arr[i])){
+                Space = Space + 1;
+            }
+        }
+        
+        return (SChars, UChars, LChars, Nums, Space);
+
         }
     }
 }
