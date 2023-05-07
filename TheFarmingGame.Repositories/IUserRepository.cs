@@ -7,7 +7,7 @@ using TheFarmingGame.Domains;
 
 namespace TheFarmingGame.Repositories
 {
-    public interface IUserRepository : IRepositoryBase<User>
+    public interface IUserRepository
     {
     }
 }
