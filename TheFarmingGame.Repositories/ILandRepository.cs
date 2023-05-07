@@ -7,7 +7,10 @@ using TheFarmingGame.Domains;
 
 namespace TheFarmingGame.Repositories
 {
-    public interface ILandRepository : IRepositoryBase<Land>
+    public interface ILandRepository 
     {
+        Task<Land> CreateLandAsync(Land land);
+        Task<Land?> GetLandByIdAsync(int id);
+        Task<Land?> UpdateLand(Land land);
     }
 }
