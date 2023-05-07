@@ -37,12 +37,12 @@ namespace TheFarmingGame.Services
             Console.WriteLine("Sample hash: {0}", SampleHash);
         }
         // add hash and other helper functions here
-        public Task<String> Register()
+        public Task<String> Register(string UserName, string Password, string Alias)
         {
             // call service authorization functions
             return null;
         }
-        public Task<User> Login()
+        public Task<User> Login(string UserName, string Password)
         {
             return null;
         }

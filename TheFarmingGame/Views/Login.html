@@ -19,7 +19,7 @@
         <input type="password" class="textbox" id="Pass" name="Pass" placeholder="Password" />
     </div>
     <div>
-        <input type="button" value="Submit" name="Submit" id="Submit" />
+        <input type="button" value="Login" name="Login" id="Login" />
     </div>
     
 </body>
@@ -27,11 +27,13 @@
 
 <script>
     $(document).ready(function () {
-        $("#Submit").click(function(){
+        $("#Login").click(function(){
+            var usercreds = '{UserName: "' + $("#User").val() + '" , Password: "' + $("#Pass").val() + '" }';
             $.ajax({
                 type: "POST",
-                url: "/api/submitLogin",
+                url: "/api/Authentication/Login",
                 contentType: "application/json; charset=utf-8",
+                data: usercreds,
                 dataType: "json"
             });
         });

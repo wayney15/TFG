@@ -19,19 +19,19 @@ namespace TheFarmingGame.Controllers
 
         [Route("Register")]
         [HttpPost]
-        public async Task<IActionResult> Register()
+        public async Task<IActionResult> Register(string UserName, string Password, string Alias)
         {
             // call service authorization functions
             //_authorizationService.Register();
-            string test = await _authorizationService.Register();
+            string test = await _authorizationService.Register(UserName, Password, Alias);
             return Ok(test);
         }
 
         [Route("Login")]
         [HttpPost]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(string UserName, string Password)
         {
-            User user = await _authorizationService.Login();
+            User user = await _authorizationService.Login(UserName, Password);
             return Ok(user);
         }
     }

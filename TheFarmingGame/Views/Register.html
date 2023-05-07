@@ -19,7 +19,10 @@
         <input type="password" class="textbox" id="Pass" name="Pass" placeholder="Password" />
     </div>
     <div>
-        <input type="button" value="Submit" name="Submit" id="Submit" />
+        <input type="text" class="textbox" id="Alias" name="Alias" placeholder="Alias"/>
+    </div>
+    <div>
+        <input type="button" value="Register" name="Register" id="Register" />
     </div>
     
 </body>
@@ -27,11 +30,13 @@
 
 <script>
     $(document).ready(function () {
-        $("#Submit").click(function () {
+        $("#Register").click(function(){
+            var usercreds = '{UserName: "' + $("#User").val() + '" , Password: "' + $("#Pass").val() + '"  , Alias: "' + $("#Alias").val() + '"}';
             $.ajax({
                 type: "POST",
-                url: "/api/submitRegister",
+                url: "/api/Authentication/Register",
                 contentType: "application/json; charset=utf-8",
+                data: usercreds,
                 dataType: "json"
             });
         });
