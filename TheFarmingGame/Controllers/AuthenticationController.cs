@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TheFarmingGame.Domains;
 using TheFarmingGame.Domains.Requests;
+using TheFarmingGame.Domains.Response;
 using TheFarmingGame.Services;
 
 namespace TheFarmingGame.Controllers
@@ -39,7 +40,17 @@ namespace TheFarmingGame.Controllers
                 return BadRequest("Empty username or password.");
             }
             User user = await _authorizationService.Login();
-            return Ok(user);
+            UserResponse userResponse = new UserResponse()
+            {
+                Alias = user.Alias,
+                Lands = user.Lands,
+                Money = user.Money,
+                ProtectAmount = user.ProtectAmount,
+                StealAmount = user.StealAmount
+            };
+            return Ok(userResponse);
         }
+
+       
     }
 }
