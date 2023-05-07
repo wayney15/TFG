@@ -7,10 +7,13 @@ using TheFarmingGame.Domains;
 
 namespace TheFarmingGame.Repositories
 {
-    public class BidRepository : RepositoryBase<Bid>, IBidRepository
+    public class BidRepository : IBidRepository
     {
-        public BidRepository(TheFarmingGameDbContext theFarmingGameDbContext) : base(theFarmingGameDbContext)
+        private readonly TheFarmingGameDbContext _theFarmingGameDbContext;
+
+        public BidRepository(TheFarmingGameDbContext theFarmingGameDbContext)
         {
+            _theFarmingGameDbContext = theFarmingGameDbContext;
         }
     }
 }

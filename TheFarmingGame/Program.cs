@@ -13,6 +13,11 @@ builder.Services.AddDbContext<TheFarmingGameDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ILandService, LandService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ILandRepository, LandRepository>();
+builder.Services.AddScoped<IBidRepository, BidRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

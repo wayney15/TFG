@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TheFarmingGame.Domains;
+using TheFarmingGame.Domains.Requests;
 using TheFarmingGame.Services;
 
 namespace TheFarmingGame.Controllers
@@ -10,11 +11,13 @@ namespace TheFarmingGame.Controllers
     {
         private readonly ILogger<AuthenticationController> _logger;
         private readonly IAuthenticationService _authorizationService;
+        private readonly IUserService _userService;
 
-        public AuthenticationController(ILogger<AuthenticationController> logger, IAuthenticationService authorizationService)
+        public AuthenticationController(ILogger<AuthenticationController> logger, IAuthenticationService authorizationService, IUserService userService)
         {
             _logger = logger;
             _authorizationService = authorizationService;
+            _userService = userService;
         }
 
         [Route("Register")]
@@ -29,8 +32,12 @@ namespace TheFarmingGame.Controllers
 
         [Route("Login")]
         [HttpPost]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
+            if (request.UserName == null || request.Password == null)
+            {
+                return BadRequest("Empty username or password.");
+            }
             User user = await _authorizationService.Login();
             return Ok(user);
         }
