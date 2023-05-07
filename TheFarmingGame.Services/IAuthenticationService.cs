@@ -9,7 +9,7 @@ namespace TheFarmingGame.Services
 {
     public interface IAuthenticationService
     {
-        Task<String> Register();
-        Task<User> Login();
+        Task<User> Register(string UserName, string Password, string Alias);
+        Task<User> Login(string UserName, string Password);
     }
 }
