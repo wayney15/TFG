@@ -8,5 +8,13 @@ namespace TheFarmingGame.Services
 {
     public class BidService : IBidService
     {
+        public Task<String> ListBids()
+        {
+            return null;
+        }
+        public Task<String> ListUserBids(string Id)
+        {
+            return null;
+        }
     }
 }

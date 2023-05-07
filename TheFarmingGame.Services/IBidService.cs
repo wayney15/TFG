@@ -8,5 +8,7 @@ namespace TheFarmingGame.Services
 {
     public interface IBidService
     {
+        Task<String> ListBids();
+        Task<String> ListUserBids(string Id);
     }
 }

@@ -8,5 +8,8 @@ namespace TheFarmingGame.Services
 {
     public interface IUserService
     {
+        
+        Task<String> UserInfo(string Id);
+        Task<String> ListUsers();
     }
 }

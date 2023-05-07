@@ -23,5 +23,14 @@ namespace TheFarmingGame.Services
             var result = await _landRepository.CreateLandAsync(newLand);
             return result;
         }
+
+        public Task<String> ListLands()
+        {
+            return null;
+        }
+        public Task<String> ListUserLands(string Id)
+        {
+            return null;
+        }
     }
 }
