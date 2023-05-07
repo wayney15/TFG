@@ -22,12 +22,14 @@ namespace TheFarmingGame.Controllers
 
         [Route("Register")]
         [HttpPost]
-        public async Task<IActionResult> Register(string UserName, string Password, string Alias)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            // call service authorization functions
-            //_authorizationService.Register();
-            string test = await _authorizationService.Register(UserName, Password, Alias);
-            return Ok(test);
+            if (request.UserName == null || request.Password == null || request.Alias == null)
+            {
+                return BadRequest("Empty username or password.");
+            }
+            User user = await _authorizationService.Register(request.UserName, request.Password, request.Alias);
+            return Ok(user);
         }
 
         [Route("Login")]
@@ -38,7 +40,7 @@ namespace TheFarmingGame.Controllers
             {
                 return BadRequest("Empty username or password.");
             }
-            User user = await _authorizationService.Login();
+            User user = await _authorizationService.Login(request.UserName, request.Password);
             return Ok(user);
         }
     }
