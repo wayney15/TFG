@@ -10,6 +10,13 @@ namespace TheFarmingGame.Services
 {
     public class UserService : IUserService
     {
+        private readonly IUserRepository _userRepository;
+        public UserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+
         private readonly UserRepository _userRepository;
         public Task<String> UserInfo(string Id)
         {
