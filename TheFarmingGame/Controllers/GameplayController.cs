@@ -9,14 +9,15 @@ namespace TheFarmingGame.Controllers
     [Route("api/[controller]")]
     public class GameplayController : ControllerBase
     {
-        private readonly IGameplayService _gameplayService;
+        private readonly IBidService _bidService;
+        private readonly ILandService _landService;
         private readonly IUserService _userService;
 
         [Route("UserInfo")]
         [HttpPost]
         public async Task<IActionResult> UserInfo(string Id)
         {
-            String test = await _gameplayService.UserInfo(Id);
+            String test = await _userService.UserInfo(Id);
             return Ok(test);
         }
 
@@ -24,7 +25,7 @@ namespace TheFarmingGame.Controllers
         [HttpPost]
         public async Task<IActionResult> ListUsers()
         {
-            String test = await _gameplayService.ListUsers();
+            String test = await _userService.ListUsers();
             return Ok(test);
         }
 
@@ -32,7 +33,7 @@ namespace TheFarmingGame.Controllers
         [HttpPost]
         public async Task<IActionResult> ListLands()
         {
-            String test = await _gameplayService.ListLands();
+            String test = await _landService.ListLands();
             return Ok(test);
         }
 
@@ -40,7 +41,7 @@ namespace TheFarmingGame.Controllers
         [HttpPost]
         public async Task<IActionResult> ListBids()
         {
-            String test = await _gameplayService.ListBids();
+            String test = await _bidService.ListBids();
             return Ok(test);
         }
 
@@ -48,15 +49,15 @@ namespace TheFarmingGame.Controllers
         [HttpPost]
         public async Task<IActionResult> ListUserBids(string Id)
         {
-            String test = await _gameplayService.ListUserBids(Id);
+            String test = await _bidService.ListUserBids(Id);
             return Ok(test);
         }
 
-        [Route("ListUserLand")]
+        [Route("ListUserLands")]
         [HttpPost]
         public async Task<IActionResult> ListUserLands(string Id)
         {
-            String test = await _gameplayService.ListUserLands(Id);
+            String test = await _landService.ListUserLands(Id);
             return Ok(test);
         }
     }

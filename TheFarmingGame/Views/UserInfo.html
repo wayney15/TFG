@@ -1,0 +1,53 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
+
+    <script>
+        $(document).ready(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/api/Gameplay/UserInfo",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data, textStatus, xhr){
+                        $('#UserList').empty();
+                        $('#UserList').append('<tr> <th> Alias </th>');
+                        $('#UserList').append('<th> Money </th>');
+                        $('#UserList').append('<th> Steal Amount </th>');
+                        $('#UserList').append('<th> Protect Amount </th> </tr>');
+
+                        $('#UserList').append(data);
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
+        });
+    </script>
+
+</head>
+<body>
+    <header>
+        The Farming Game - User Information
+    </header>
+    <p>
+        Your User Information:
+    </p>
+    <table id="UserList">
+    <p>
+
+    </p>
+    <button onclick="window.location.href='Menu.html';">
+        Back
+    </button>
+    
+</body>
+</html>
+

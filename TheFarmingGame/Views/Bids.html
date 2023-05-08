@@ -1,0 +1,35 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
+
+    <script>
+        $(document).ready(function () {
+                var usercreds = '{UserName: "' + $("#User").val() + '" , Password: "' + $("#Pass").val() + '" }';
+                $.ajax({
+                    type: "POST",
+                    url: "/api/Authentication/Login",
+                    contentType: "application/json; charset=utf-8",
+                    data: usercreds,
+                    dataType: "json"
+                });
+        });
+    </script>
+
+</head>
+<body>
+    <header>
+        The Farming Game - Bids
+    </header>
+    <button onclick="window.location.href='Menu.html';">
+        Back
+    </button>
+    
+</body>
+</html>
+
