@@ -91,6 +91,11 @@ namespace TheFarmingGame.Services
                 return null;
         }
 
+        public async Task<User?> GetUser(int selfId)
+        {
+            return await _userRepository.GetUserByIdAsync(selfId);
+        }
+
         public async Task<IEnumerable<User>?> GetAllUsersExceptSelfAsync(int selfId)
         {
             return await _userRepository.GetAllUsersExceptSelfAsync(selfId);
