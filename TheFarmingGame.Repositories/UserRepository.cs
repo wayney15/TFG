@@ -17,11 +17,22 @@ namespace TheFarmingGame.Repositories
             _theFarmingGameDbContext = theFarmingGameDbContext;
         }
 
-        public async Task<User> CreateUserAsync(User user)
+        public async Task CreateUserAsync(User user)
         {
-            var result = await _theFarmingGameDbContext.Users.AddAsync(user);
-            await _theFarmingGameDbContext.SaveChangesAsync();
-            return result.Entity;
+            try {
+                await _theFarmingGameDbContext.Users.AddAsync(user);
+                await _theFarmingGameDbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Handle database update exceptions
+                throw new Exception("Error saving entity.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                throw new Exception("Error saving entity.", ex);
+            }
         }
 
         public async Task<User?> GetUserByIdAsync(int id)
@@ -29,11 +40,20 @@ namespace TheFarmingGame.Repositories
             return await _theFarmingGameDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<User?> GetUserByAliasAsync(int id)
+        public async Task<User?> GetUserByAliasAsync(string alias)
         {
-            return await _theFarmingGameDbContext.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await _theFarmingGameDbContext.Users.FirstOrDefaultAsync(u => u.Alias == alias);
         }
 
+        public async Task<User?> GetUserByUsernameAsync(string username)
+        {
+            return await _theFarmingGameDbContext.Users.FirstOrDefaultAsync(u => u.UserName == username);
+        }
+
+        public async Task<IEnumerable<User>?> GetAllUsersExceptSelfAsync(int selfId)
+        {
+            return await _theFarmingGameDbContext.Users.Where(u => u.Id != selfId).ToListAsync();
+        }
         public async Task<User?> UpdateLand(User user)
         {
             var result = await _theFarmingGameDbContext.Users
