@@ -12,6 +12,11 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<TheFarmingGameDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddCors(p => p.AddPolicy("corsapp", builder =>
+{
+    builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+}));
+
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILandService, LandService>();
@@ -25,6 +30,8 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
+app.UseCors("corsapp");
 
 app.MapControllers();
 app.Run();

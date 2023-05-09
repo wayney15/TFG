@@ -6,23 +6,36 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="Style/site.css" asp-append-version="true" />
 
     <script>
         $(document).ready(function () {
+            var id = 5;
                 $.ajax({
                     type: "GET",
-                    url: "https://localhost:7244/api/Gameplay/UserInfo",
+                    url: "https://localhost:7244/api/user/" + id,
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
+                    CORS: false,
+                    headers: {
+                    "Access-Control-Allow-Origin": '*',
+                    },
                     success: function(data, textStatus, xhr){
+                        console.log(data);
                         $('#UserList').empty();
-                        $('#UserList').append('<tr> <th> Alias </th>');
+                        $('#UserList').append('<tr>');
+                        $('#UserList').append('<th> Alias </th>');
                         $('#UserList').append('<th> Money </th>');
                         $('#UserList').append('<th> Steal Amount </th>');
-                        $('#UserList').append('<th> Protect Amount </th> </tr>');
+                        $('#UserList').append('<th> Protect Amount </th>');
+                        $('#UserList').append('</tr>');
 
-                        $('#UserList').append(data);
+                        $('#UserList').append('<tr>');
+                        $('#UserList').append('<td> ' + data.alias + '</td>');
+                        $('#UserList').append('<td> ' + data.money + '</td>');
+                        $('#UserList').append('<td> ' + data.stealAmount + '</td>');
+                        $('#UserList').append('<td> ' + data.protectAmount + '</td>');
+                        $('#UserList').append('</tr>');
                         
                     },
                     error: function(error){
@@ -41,6 +54,7 @@
         Your User Information:
     </p>
     <table id="UserList">
+    </table>
     <p>
 
     </p>

@@ -17,7 +17,7 @@
         public DateTime? HarvestTime { get; set; }
         public bool IsProtected { get; set; }
         public int UserId { get; set; }
-        public User User { get; set; }
+        public string? UserAlias { get; set; }
         public DateTime? BidTime { get; set; }
     }
 }

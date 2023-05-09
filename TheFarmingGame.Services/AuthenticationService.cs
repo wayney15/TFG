@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using Konscious.Security.Cryptography;
 using System.Threading.Tasks;
 using TheFarmingGame.Domains;
+using TheFarmingGame.Domains.Response;
 
 namespace TheFarmingGame.Services
 {
@@ -37,12 +38,12 @@ namespace TheFarmingGame.Services
             Console.WriteLine("Sample hash: {0}", SampleHash);
         }
         // add hash and other helper functions here
-        public Task<String> Register(string UserName, string Password, string Alias)
+        public Task<UserResponse> Register(string UserName, string Password, string Alias)
         {
             // call service authorization functions
             return null;
         }
-        public Task<User> Login(string UserName, string Password)
+        public Task<UserResponse> Login(string UserName, string Password)
         {
             return null;
         }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheFarmingGame.Domains.Response;
 
 namespace TheFarmingGame.Services
 {
     public interface IUserService
     {
-        
-        Task<String> UserInfo(string Id);
-        Task<String> ListUsers();
+        Task<UserResponse> Get(string Id);
+        Task<List<UserResponse>> ListUsers();
     }
 }

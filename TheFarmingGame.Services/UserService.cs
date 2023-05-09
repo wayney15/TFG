@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheFarmingGame.Repositories;
 using TheFarmingGame.Domains;
+using TheFarmingGame.Domains.Response;
 
 namespace TheFarmingGame.Services
 {
@@ -15,15 +16,13 @@ namespace TheFarmingGame.Services
         {
             _userRepository = userRepository;
         }
-
-
-        private readonly UserRepository _userRepository;
-        public Task<String> UserInfo(string Id)
+        public Task<UserResponse> Get(string Id)
         {
-            User user = _userRepository.GetUserByIdAsync(Convert.ToInt32(Id));
-            return ("{ Alias: " + user.Alias + ", Money: " + user.Money + ", StealAmount: " + user.StealAmount + ", ProtectAmount: " + user.ProtectAmount + "}");
+            //User user = _userRepository.GetUserByIdAsync(Convert.ToInt32(Id));
+
+            return null;
         }
-        public Task<String> ListUsers()
+        public Task<List<UserResponse>> ListUsers()
         {
             return null;
         }

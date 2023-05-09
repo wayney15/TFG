@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using TheFarmingGame.Domains.Requests;
+using TheFarmingGame.Domains.Response;
 using TheFarmingGame.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -31,9 +33,15 @@ namespace TheFarmingGame.Controllers
 
         // GET api/<userController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public UserResponse Get(string id)
         {
-            return "value";
+            // UserResponse userResponse = _userService.Get(id)
+            UserResponse userResponse= new UserResponse();
+            userResponse.Alias = "John";
+            userResponse.Money = 1234;
+            userResponse.StealAmount = 12345;
+            userResponse.ProtectAmount = 123456;
+            return userResponse;
         }
 
         // POST api/<userController>

@@ -29,7 +29,7 @@ namespace TheFarmingGame.Controllers
             {
                 return BadRequest("Empty username or password.");
             }
-            User user = await _authorizationService.Register(request.UserName, request.Password, request.Alias);
+            UserResponse user = await _authorizationService.Register(request.UserName, request.Password, request.Alias);
             return Ok(user);
         }
 
@@ -41,7 +41,7 @@ namespace TheFarmingGame.Controllers
             {
                 return BadRequest("Empty username or password.");
             }
-            User user = await _authorizationService.Login();
+            UserResponse user = await _authorizationService.Login(request.UserName, request.Password);
             UserResponse userResponse = new UserResponse()
             {
                 Alias = user.Alias,
