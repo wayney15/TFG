@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TheFarmingGame.Domains;
 
 namespace TheFarmingGame.Repositories
@@ -14,6 +15,11 @@ namespace TheFarmingGame.Repositories
         public BidRepository(TheFarmingGameDbContext theFarmingGameDbContext)
         {
             _theFarmingGameDbContext = theFarmingGameDbContext;
+        }
+
+        public async Task<IEnumerable<Bid>?> GetAllBidAsync()
+        {
+            return await _theFarmingGameDbContext.Bids.ToListAsync();
         }
     }
 }

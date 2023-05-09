@@ -14,54 +14,50 @@ namespace TheFarmingGame.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class landController : ControllerBase
+    public class bidController : ControllerBase
     {
-        private readonly ILandService _landService;
+        private readonly IBidService _bidService;
 
-        public landController(ILandService landService)
+        public bidController(IBidService bidService)
         {
-            _landService = landService;
+            _bidService = bidService;
         }
 
         [Authorize]
-        [Route("GetAllLands")]
+        [Route("GetAllBids")]
         [HttpGet]
-        public async Task<IActionResult> GetAllLands()
+        public async Task<IActionResult> GetAllBids()
         {
-            var landList = await _landService.GetAllLandAsync();
-            if(landList == null)
+            var bidList = await _bidService.GetAllBidAsync();
+            if(bidList == null)
             {
                 return Ok();
             }
-            var returnList = new List<LandResponse>();
-            foreach(Land l in landList)
+            var returnList = new List<BidResponse>();
+            foreach(Bid b in bidList)
             {
-                LandResponse lr = new LandResponse();
-                lr.Alias = l.Alias;
-                lr.Level = l.Level;
-                lr.Plant = l.Plant;
-                lr.HarvestTime = l.HarvestTime;
-                lr.IsProtected = l.IsProtected;
-                lr.UserAlias = l.UserAlias;
-                lr.BidTime = l.BidTime;
-                returnList.Add(lr);
+                BidResponse br = new BidResponse();
+                br.LandAlias = b.LandAlias;
+                br.UserAlias = b.UserAlias;
+                br.BidAmount = b.BidAmount;
+                returnList.Add(br);
             }
             return Ok(returnList);
         }
 
-        // POST api/<landController>
+        // POST api/<bidController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<landController>/5
+        // PUT api/<bidController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<landController>/5
+        // DELETE api/<bidController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

@@ -13,29 +13,6 @@ namespace TheFarmingGame.Controllers
         private readonly ILandService _landService;
         private readonly IUserService _userService;
 
-        // [Route("UserInfo")]
-        // [HttpPost]
-        // public async Task<IActionResult> UserInfo(string Id)
-        // {
-        //     String test = await _userService.UserInfo(Id);
-        //     return Ok(test);
-        // }
-
-        // [Route("ListUsers")]
-        // [HttpPost]
-        // public async Task<IActionResult> ListUsers()
-        // {
-        //     String test = await _userService.ListUsers();
-        //     return Ok(test);
-        // }
-
-        [Route("ListLands")]
-        [HttpPost]
-        public async Task<IActionResult> ListLands()
-        {
-            String test = await _landService.ListLands();
-            return Ok(test);
-        }
 
         [Route("ListBids")]
         [HttpPost]

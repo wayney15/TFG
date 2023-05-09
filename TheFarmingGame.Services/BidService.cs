@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheFarmingGame.Repositories;
+using TheFarmingGame.Domains;
 
 namespace TheFarmingGame.Services
 {
@@ -13,6 +14,11 @@ namespace TheFarmingGame.Services
         public BidService(IBidRepository bidRepository)
         {
             _bidRepository = bidRepository;
+        }
+
+        public async Task<IEnumerable<Bid>?> GetAllBidAsync()
+        {
+            return await _bidRepository.GetAllBidAsync();
         }
         public Task<String> ListBids()
         {
