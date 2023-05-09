@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using TheFarmingGame.Domains;
 using TheFarmingGame.Domains.Requests;
 using TheFarmingGame.Domains.Response;
 using TheFarmingGame.Services;
@@ -20,28 +23,34 @@ namespace TheFarmingGame.Controllers
             _userService = userService;
         }
 
-        // GET: api/<userController>
+        [Authorize]
+        [Route("GetAllUsers")]
         [HttpGet]
-        public async Task<IActionResult> GetUserById([FromBody] LoginRequest request)
+        public async Task<IActionResult> GetAllUsers()
         {
-            if (request.UserName == null || request.Password == null)
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if(userId == null)
             {
-                return BadRequest("Empty username or password.");
+                return NotFound("Current user not found.");
             }
-            return Ok();
+            var userList = await _userService.GetAllUsersExceptSelfAsync(int.Parse(userId));
+            if(userList == null)
+            {
+                return Ok();
+            }
+            var returnList = new List<Object>();
+            foreach(User u in userList)
+            {
+                returnList.Add(new {Alias = u.Alias});
+            }
+            return Ok(returnList);
         }
 
         // GET api/<userController>/5
         [HttpGet("{id}")]
-        public UserResponse Get(string id)
+        public string Get(int id)
         {
-            // UserResponse userResponse = _userService.Get(id)
-            UserResponse userResponse= new UserResponse();
-            userResponse.Alias = "John";
-            userResponse.Money = 1234;
-            userResponse.StealAmount = 12345;
-            userResponse.ProtectAmount = 123456;
-            return userResponse;
+            return "value";
         }
 
         // POST api/<userController>

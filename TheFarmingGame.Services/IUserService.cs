@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheFarmingGame.Domains.Response;
+using TheFarmingGame.Domains;
 
 namespace TheFarmingGame.Services
 {
     public interface IUserService
     {
-        Task<UserResponse> Get(string Id);
-        Task<List<UserResponse>> ListUsers();
+        Task Register(string username, string password, string alias);
+        Task<User?> Login(string username, string password);
+        Task<IEnumerable<User>?> GetAllUsersExceptSelfAsync(int selfId);
     }
 }

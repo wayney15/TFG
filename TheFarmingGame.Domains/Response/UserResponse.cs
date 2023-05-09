@@ -12,6 +12,7 @@ namespace TheFarmingGame.Domains.Response
         public int Money { get; set; }
         public int StealAmount { get; set; }
         public int ProtectAmount { get; set; }
+        public string? token { get; set; }
         public List<Land>? Lands { get; set; }
     }
 }

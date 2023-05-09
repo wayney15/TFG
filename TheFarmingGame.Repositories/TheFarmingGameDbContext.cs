@@ -18,6 +18,9 @@ namespace TheFarmingGame.Repositories
             modelBuilder.Entity<User>()
                 .HasIndex(e => e.Alias)
                 .IsUnique();
+            modelBuilder.Entity<User>()
+                .HasIndex(e => e.UserName)
+                .IsUnique();
         }
     }
 }
