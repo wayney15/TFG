@@ -1,4 +1,4 @@
-﻿using Konscious.Security.Cryptography;
+﻿﻿using Konscious.Security.Cryptography;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -9,8 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TheFarmingGame.Domains;
 using TheFarmingGame.Repositories;
-using TheFarmingGame.Domains;
-using TheFarmingGame.Domains.Response;
 
 namespace TheFarmingGame.Services
 {
@@ -92,10 +90,11 @@ namespace TheFarmingGame.Services
             else
                 return null;
         }
-        public Task<UserResponse> Get(string Id)
-        {
-            //User user = _userRepository.GetUserByIdAsync(Convert.ToInt32(Id));
 
+        public async Task<IEnumerable<User>?> GetAllUsersExceptSelfAsync(int selfId)
+        {
+            return await _userRepository.GetAllUsersExceptSelfAsync(selfId);
+        }
 
     }
 }

@@ -6,17 +6,49 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="Style/site.css" asp-append-version="true" />
 
     <script>
         $(document).ready(function () {
-                var usercreds = '{UserName: "' + $("#User").val() + '" , Password: "' + $("#Pass").val() + '" }';
+            var id = 5;
                 $.ajax({
-                    type: "POST",
-                    url: "/api/Authentication/Login",
+                    type: "GET",
+                    url: "https://localhost:7244/land/GetAllLands",
                     contentType: "application/json; charset=utf-8",
-                    data: usercreds,
-                    dataType: "json"
+                    dataType: "json",
+                    CORS: false,
+                    headers: {
+                    "Access-Control-Allow-Origin": '*',
+                    },
+                    success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#LandList').empty();
+                        $('#LandList').append('<tr>');
+                        $('#LandList').append('<th> Alias </th>');
+                        $('#LandList').append('<th> Level </th>');
+                        $('#LandList').append('<th> Plant </th>');
+                        $('#LandList').append('<th> Harvest Time </th>');
+                        $('#LandList').append('<th> Is Protected </th>');
+                        $('#LandList').append('<th> UserAlias </th>');
+                        $('#LandList').append('<th> Bid Time </th>');
+                        $('#LandList').append('</tr>');
+
+                        $.each( obj, function( key, value ) {
+                            $('#LandList').append('<tr>');
+                            $('#LandList').append('<td> ' + value.alias + '</td>');
+                            $('#LandList').append('<td> ' + value.level + '</td>');
+                            $('#LandList').append('<td> ' + value.plant + '</td>');
+                            $('#LandList').append('<td> ' + value.harvesttime + '</td>');
+                            $('#LandList').append('<td> ' + value.isprotected + '</td>');
+                            $('#LandList').append('<td> ' + value.useralias + '</td>');
+                            $('#LandList').append('<td> ' + value.bidtime + '</td>');
+                            $('#LandList').append('</tr>');
+                        });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
                 });
         });
     </script>
@@ -26,6 +58,15 @@
     <header>
         The Farming Game - Land Information
     </header>
+    <p>
+        
+        Land Information:
+    </p>
+    <table id="LandList">
+    </table>
+    <p>
+
+    </p>
     <button onclick="window.location.href='Menu.html';">
         Back
     </button>

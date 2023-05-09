@@ -32,5 +32,10 @@ namespace TheFarmingGame.Services
         {
             return null;
         }
+
+        public async Task<IEnumerable<Land>?> GetAllLandAsync(int selfId)
+        {
+            return await _landRepository.GetAllLandAsync();
+        }
     }
 }
