@@ -17,9 +17,8 @@ namespace TheFarmingGame.Services
             _landRepository = landRepository;
         }
 
-        public async Task<Land> GenerateNewLand()
+        public async Task<Land> GenerateNewLand(Land newLand)
         {
-            var newLand = new Land();
             var result = await _landRepository.CreateLandAsync(newLand);
             return result;
         }

@@ -1,19 +1,20 @@
 ﻿using Microsoft.Extensions.Configuration;
 using TheFarmingGame.Domains;
-using TheFarmingGame.Repositories;
+using TheFarmingGame.Services;
 
-public class LandGeneratorService : IHostedService
+public class LandGeneratorService : BackgroundService
 {
-    private readonly ILandRepository _landRepository;
+    private readonly ILandService _landService;
     private readonly IConfiguration _configuration;
-    public LandGeneratorService(IConfiguration configuration, ILandRepository landRepository)
+    public IServiceProvider Services { get; }
+    public LandGeneratorService(IConfiguration configuration, ILandService landService)
     {
         _configuration = configuration;
-        _landRepository = landRepository;
+        _landService = landService;
 
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         Land starterLand = new Land();
         starterLand.Id = 0;
@@ -34,7 +35,14 @@ public class LandGeneratorService : IHostedService
                 starterLand.Alias = "Land" + starterLand.Id;
                 try
                 {
-                    await _landRepository.CreateLandAsync(starterLand);
+                    using (var scope = Services.CreateScope())
+                    {
+                        var scopedProcessingService = 
+                        scope.ServiceProvider
+                        .GetRequiredService<LandService>();
+
+                    await _landService.GenerateNewLand(starterLand);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -45,10 +53,5 @@ public class LandGeneratorService : IHostedService
             Console.Write("3 New Lands made");
             Task dummyTask = Task.Delay(TimeSpan.FromMinutes(5));
         }
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return null;
     }
 }
