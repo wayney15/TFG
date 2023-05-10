@@ -15,5 +15,6 @@ namespace TheFarmingGame.Repositories
         {
             _theFarmingGameDbContext = theFarmingGameDbContext;
         }
+
     }
 }
