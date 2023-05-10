@@ -12,6 +12,7 @@ namespace TheFarmingGame.Repositories
         public DbSet<User> Users { get; set; }
         public DbSet<Land> Lands  { get; set; }
         public DbSet<Bid> Bids { get; set; }
+        public DbSet<LandBid> LandBids { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
