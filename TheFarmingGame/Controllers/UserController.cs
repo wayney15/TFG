@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Extensions.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using TheFarmingGame.Domains;
@@ -16,10 +17,12 @@ namespace TheFarmingGame.Controllers
     [ApiController]
     public class userController : ControllerBase
     {
+        private readonly ILogger<userController> _logger;
         private readonly IUserService _userService;
 
-        public userController(IUserService userService)
+        public userController(ILogger<userController> logger, IUserService userService)
         {
+            _logger = logger;
             _userService = userService;
         }
 
@@ -34,9 +37,9 @@ namespace TheFarmingGame.Controllers
                 return NotFound("Current user not found.");
             }
             var userList = await _userService.GetAllUsersExceptSelfAsync(int.Parse(userId));
-            if(userList == null)
+            if(userList.Count() == 0)
             {
-                return Ok();
+                return NotFound("You are the only user");
             }
             var returnList = new List<Object>();
             foreach(User u in userList)

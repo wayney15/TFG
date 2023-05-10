@@ -11,6 +11,6 @@ namespace TheFarmingGame.Services
     {
         Task Register(string username, string password, string alias);
         Task<User?> Login(string username, string password);
-        Task<IEnumerable<User>?> GetAllUsersExceptSelfAsync(int selfId);
+        Task<IEnumerable<User>> GetAllUsersExceptSelfAsync(int selfId);
     }
 }
