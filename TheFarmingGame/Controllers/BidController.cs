@@ -36,6 +36,10 @@ namespace TheFarmingGame.Controllers
             // get user id
             var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
             if (userId == null)
+                return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
+
+            var user = await _userService.GetUserByIdAsync(int.Parse(userId));
+            if (user == null)
                 return NotFound("Current user not found.");
 
             // see if landId is on bid
@@ -54,7 +58,7 @@ namespace TheFarmingGame.Controllers
             // now the bid is valid, add it to db
             try
             {
-                await _bidService.AddBidAsync(new Bid { LandBidId = landBid.Id, UserId = int.Parse(userId), Id = request.Amount });
+                await _bidService.AddBidAsync(new Bid { LandBidId = landBid.Id, UserId = user.Id, Id = request.Amount });
             }
             catch (Exception ex)
             {
