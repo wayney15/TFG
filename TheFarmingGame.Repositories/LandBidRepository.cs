@@ -14,7 +14,7 @@ namespace TheFarmingGame.Repositories
         {
             _theFarmingGameDbContext = theFarmingGameDbContext;
         }
-        public async Task<LandBid> CreateLandAsync(LandBid landBid)
+        public async Task<LandBid> CreateLandBidAsync(LandBid landBid)
         {
             var result = await _theFarmingGameDbContext.LandBids.AddAsync(landBid);
             await _theFarmingGameDbContext.SaveChangesAsync();

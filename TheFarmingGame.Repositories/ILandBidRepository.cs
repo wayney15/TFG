@@ -9,6 +9,6 @@ namespace TheFarmingGame.Repositories
 {
     public interface ILandBidRepository
     {
-        Task<LandBid> CreateLandAsync(LandBid landBid);
+        Task<LandBid> CreateLandBidAsync(LandBid landBid);
     }
 }
