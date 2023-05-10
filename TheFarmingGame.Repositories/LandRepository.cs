@@ -41,7 +41,6 @@ namespace TheFarmingGame.Repositories
                 result.HarvestTime = land.HarvestTime;
                 result.IsProtected = land.IsProtected;
                 result.UserId = land.Id;
-                result.BidTime = land.BidTime;
 
                 await _theFarmingGameDbContext.SaveChangesAsync();
 
