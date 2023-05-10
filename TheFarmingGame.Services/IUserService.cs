@@ -9,8 +9,9 @@ namespace TheFarmingGame.Services
 {
     public interface IUserService
     {
-        Task Register(string username, string password, string alias);
-        Task<User?> Login(string username, string password);
-        Task<IEnumerable<User>?> GetAllUsersExceptSelfAsync(int selfId);
+        Task RegisterAsync(string username, string password, string alias);
+        Task<User?> LoginAsync(string username, string password);
+        Task<IEnumerable<User>> GetAllUsersExceptSelfAsync(int selfId);
+        Task<User?> GetUserByIdAsync(int id);
     }
 }

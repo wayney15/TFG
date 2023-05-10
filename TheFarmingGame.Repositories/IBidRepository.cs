@@ -9,5 +9,8 @@ namespace TheFarmingGame.Repositories
 {
     public interface IBidRepository
     {
+        Task AddBidAsync(Bid bid);
+        Task<IEnumerable<Bid>> GetBidsByLandBidIdAsync(int landBidId);
+        Task<IEnumerable<Bid>> GetBidsByLandBidIdAndUserIdAsync(int landBidId, int userId);
     }
 }

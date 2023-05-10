@@ -45,7 +45,7 @@ namespace TheFarmingGame.Services
 
         }
 
-        public async Task Register(string username, string password, string alias)
+        public async Task RegisterAsync(string username, string password, string alias)
         {
             // call service authorization functions
             var salt = GetSalt();
@@ -73,7 +73,7 @@ namespace TheFarmingGame.Services
             }
         }
 
-        public async Task<User?> Login(string username, string password)
+        public async Task<User?> LoginAsync(string username, string password)
         {
             var user = await _userRepository.GetUserByUsernameAsync(username);
             if (user == null)
@@ -91,10 +91,14 @@ namespace TheFarmingGame.Services
                 return null;
         }
 
-        public async Task<IEnumerable<User>?> GetAllUsersExceptSelfAsync(int selfId)
+        public async Task<IEnumerable<User>> GetAllUsersExceptSelfAsync(int selfId)
         {
             return await _userRepository.GetAllUsersExceptSelfAsync(selfId);
         }
 
+        public async Task<User?> GetUserByIdAsync(int id)
+        {
+            return await _userRepository.GetUserByIdAsync(id);
+        }
     }
 }

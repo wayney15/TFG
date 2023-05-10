@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TheFarmingGame.Domains;
 
-namespace TheFarmingGame.Repositories
+namespace TheFarmingGame.Services
 {
-    public interface ILandBidRepository
+    public interface ILandBidService
     {
-        Task CreateLandBidAsync(LandBid landBid);
         Task<LandBid?> GetLandBidByLandIdAsync(int landId);
     }
 }
