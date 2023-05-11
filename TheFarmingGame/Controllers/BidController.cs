@@ -43,9 +43,12 @@ namespace TheFarmingGame.Controllers
                 return NotFound("Current user not found.");
 
             // see if landId is on bid
-            var landBid = await _landBidService.GetLandBidByLandIdAsync(request.LandId);
-            if (landBid == null)
-                return BadRequest("Land is not on bid.");
+            var activeLandBids = await _landBidService.GetAllActiveLandBidsAsync();
+            if (activeLandBids == null)
+                return BadRequest("Nothing is on bid");
+            var landBid = activeLandBids.Where(l => l.LandId == request.LandId).FirstOrDefault();
+            if(landBid == null)
+                return BadRequest("Land is not on bid");
 
             // see if the amount is larger than current max bid
             var currentBids = await _bidService.GetBidsByLandBidIdAsync(landBid.Id);

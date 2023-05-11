@@ -20,5 +20,21 @@ namespace TheFarmingGame.Services
         {
             return await _landBidRepository.GetLandBidByLandIdAsync(landId);
         }
+        public async Task<IEnumerable<LandBid>> GetAllLandBidsByIdsAsync(List<int> ids)
+        {
+            return await _landBidRepository.GetAllLandBidsByIdsAsync(ids);
+        }
+        public async Task<IEnumerable<LandBid>> GetAllLandBidsAsync()
+        {
+            return await _landBidRepository.GetAllLandBidsAsync();
+        }
+        public async Task<IEnumerable<LandBid>> GetAllActiveLandBidsAsync()
+        {
+            return await _landBidRepository.GetAllActiveLandBidsAsync();
+        }
+        public async Task<IEnumerable<LandBid>> GetAllInActiveLandBidsAsync()
+        {
+            return await _landBidRepository.GetAllInActiveLandBidsAsync();
+        }
     }
 }

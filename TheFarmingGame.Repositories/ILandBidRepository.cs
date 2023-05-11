@@ -11,5 +11,9 @@ namespace TheFarmingGame.Repositories
     {
         Task CreateLandBidAsync(LandBid landBid);
         Task<LandBid?> GetLandBidByLandIdAsync(int landId);
+        Task<IEnumerable<LandBid>> GetAllLandBidsByIdsAsync(List<int> ids);
+        Task<IEnumerable<LandBid>> GetAllLandBidsAsync();
+        Task<IEnumerable<LandBid>> GetAllActiveLandBidsAsync();
+        Task<IEnumerable<LandBid>> GetAllInActiveLandBidsAsync();
     }
 }
