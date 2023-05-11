@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using TheFarmingGame.Domains;
 using TheFarmingGame.Services;
+using TheFarmingGame.Repositories;
 
 public class LandGeneratorService : BackgroundService
 {
     private readonly ILandService _landService;
     private readonly IConfiguration _configuration;
-    public IServiceProvider Services { get; }
+    public IServiceProvider _serviceProvider { get; }
     public LandGeneratorService(IConfiguration configuration, ILandService landService)
     {
         _configuration = configuration;
@@ -35,13 +36,11 @@ public class LandGeneratorService : BackgroundService
                 starterLand.Alias = "Land" + starterLand.Id;
                 try
                 {
-                    using (var scope = Services.CreateScope())
+                    using (var scope = _serviceProvider.CreateScope())
                     {
-                        var scopedProcessingService = 
-                        scope.ServiceProvider
-                        .GetRequiredService<LandService>();
+                        var context = scope.ServiceProvider.GetService<LandRepository>();
 
-                    await _landService.GenerateNewLand(starterLand);
+                        await _landService.GenerateNewLand(starterLand);
                     }
                 }
                 catch (Exception ex)
