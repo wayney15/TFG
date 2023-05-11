@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TheFarmingGame.Domains;
@@ -17,11 +18,17 @@ namespace TheFarmingGame.Services
             _landRepository = landRepository;
         }
 
-        public async Task<Land> GenerateNewLand()
+        public async Task GenerateNewLand()
         {
-            var newLand = new Land();
-            var result = await _landRepository.CreateLandAsync(newLand);
-            return result;
+            try
+            {
+                await _landRepository.CreateLandAsync(new Land());
+            }
+            catch (Exception ex)
+            {
+                // Log the error and return an error result to the caller
+                throw new Exception("Error saving entity.", ex);
+            }
         }
     }
 }

@@ -39,6 +39,24 @@ namespace TheFarmingGame.Repositories
         {
             return await _theFarmingGameDbContext.LandBids.Where(l => l.LandId == landId).FirstOrDefaultAsync();
         }
-
+        public async Task<IEnumerable<LandBid>> GetAllLandBidsByIdsAsync(List<int> ids)
+        {
+            return await _theFarmingGameDbContext.LandBids.Where(l => ids.Contains(l.Id)).ToListAsync();
+        }
+        public async Task<IEnumerable<LandBid>> GetAllActiveLandBidsAsync()
+        {
+            DateTime now = DateTime.Now;
+            return await _theFarmingGameDbContext.LandBids.Where(l => l.ExpirationTime < now).ToListAsync();
+        }
+        public async Task<IEnumerable<LandBid>> GetAllLandBidsAsync()
+        {
+            DateTime now = DateTime.Now;
+            return await _theFarmingGameDbContext.LandBids.ToListAsync();
+        }
+        public async Task<IEnumerable<LandBid>> GetAllInActiveLandBidsAsync()
+        {
+            DateTime now = DateTime.Now;
+            return await _theFarmingGameDbContext.LandBids.Where(l => l.ExpirationTime >= now).ToListAsync();
+        }
     }
 }

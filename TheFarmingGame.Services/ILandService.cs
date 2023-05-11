@@ -8,5 +8,6 @@ namespace TheFarmingGame.Services
 {
     public interface ILandService
     {
+        Task GenerateNewLand();
     }
 }

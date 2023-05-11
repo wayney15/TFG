@@ -45,5 +45,9 @@ namespace TheFarmingGame.Repositories
         {
             return await _theFarmingGameDbContext.Bids.Where(b => b.LandBidId == landBidId && b.UserId == userId).ToListAsync();
         }
+        public async Task<IEnumerable<Bid>> GetAllBidsAsync()
+        {
+            return await _theFarmingGameDbContext.Bids.ToListAsync();
+        }
     }
 }
