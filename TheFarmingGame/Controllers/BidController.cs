@@ -1,66 +1,74 @@
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using TheFarmingGame.Domains;
 using TheFarmingGame.Domains.Requests;
-using TheFarmingGame.Domains.Response;
 using TheFarmingGame.Services;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace TheFarmingGame.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class bidController : ControllerBase
+    public class BidController : ControllerBase
     {
+        private readonly ILogger<BidController> _logger;
+        private readonly IUserService _userService;
         private readonly IBidService _bidService;
-
-        public bidController(IBidService bidService)
+        private readonly ILandBidService _landBidService;
+        public BidController(ILogger<BidController> logger, IUserService userService, IBidService bidService, ILandBidService landBidService)
         {
+            _logger = logger;
+            _userService = userService;
             _bidService = bidService;
+            _landBidService = landBidService;
         }
 
-        [Authorize]
-        [Route("GetAllBids")]
-        [HttpGet]
-        public async Task<IActionResult> GetAllBids()
-        {
-            var bidList = await _bidService.GetAllBidAsync();
-            if(bidList == null)
-            {
-                return Ok();
-            }
-            var returnList = new List<BidResponse>();
-            foreach(Bid b in bidList)
-            {
-                BidResponse br = new BidResponse();
-                br.LandAlias = b.LandAlias;
-                br.UserAlias = b.UserAlias;
-                br.BidAmount = b.BidAmount;
-                returnList.Add(br);
-            }
-            return Ok(returnList);
-        }
-
-        // POST api/<bidController>
+        [Route("MakeBid")]
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> MakeBid([FromBody] BidRequest request)
         {
-        }
+            if (request.LandId <= 0)
+                return BadRequest("Incorrect land id.");
 
-        // PUT api/<bidController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+            if (request.Amount <= 0)
+                return BadRequest("Incorrect amount.");
 
-        // DELETE api/<bidController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            // need input validation
+            // get user id
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null)
+                return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
+
+            var user = await _userService.GetUserByIdAsync(int.Parse(userId));
+            if (user == null)
+                return NotFound("Current user not found.");
+
+            // see if landId is on bid
+            var activeLandBids = await _landBidService.GetAllActiveLandBidsAsync();
+            if (activeLandBids == null)
+                return BadRequest("Nothing is on bid");
+            var landBid = activeLandBids.Where(l => l.LandId == request.LandId).FirstOrDefault();
+            if(landBid == null)
+                return BadRequest("Land is not on bid");
+
+            // see if the amount is larger than current max bid
+            var currentBids = await _bidService.GetBidsByLandBidIdAsync(landBid.Id);
+            if (currentBids.Count() != 0)
+            {
+                var max = currentBids.Max(b => b.BidAmount);
+                if (request.Amount <= max)
+                    return BadRequest("You cannot bid lower than current high.");
+            }
+            // now the bid is valid, add it to db
+            try
+            {
+                await _bidService.AddBidAsync(new Bid { LandBidId = landBid.Id, UserId = user.Id, Id = request.Amount });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while adding the entity.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while making the bid.");
+            }
+            return Ok();
         }
     }
 }

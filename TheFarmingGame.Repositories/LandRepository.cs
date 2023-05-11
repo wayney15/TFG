@@ -16,11 +16,23 @@ namespace TheFarmingGame.Repositories
         {
             _theFarmingGameDbContext = theFarmingGameDbContext;
         }
-        public async Task<Land> CreateLandAsync(Land land)
+        public async Task CreateLandAsync(Land land)
         {
-            var result = await _theFarmingGameDbContext.Lands.AddAsync(land);
-            await _theFarmingGameDbContext.SaveChangesAsync();
-            return result.Entity;
+            try
+            {
+                await _theFarmingGameDbContext.Lands.AddAsync(land);
+                await _theFarmingGameDbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                // Handle database update exceptions
+                throw new Exception("Error saving entity.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                throw new Exception("Error saving entity.", ex);
+            }
         }
 
         public async Task<Land?> GetLandByIdAsync(int id)
@@ -46,7 +58,6 @@ namespace TheFarmingGame.Repositories
                 result.HarvestTime = land.HarvestTime;
                 result.IsProtected = land.IsProtected;
                 result.UserId = land.Id;
-                result.BidTime = land.BidTime;
 
                 await _theFarmingGameDbContext.SaveChangesAsync();
 

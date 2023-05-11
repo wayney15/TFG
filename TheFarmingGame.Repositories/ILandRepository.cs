@@ -9,7 +9,7 @@ namespace TheFarmingGame.Repositories
 {
     public interface ILandRepository 
     {
-        Task<Land> CreateLandAsync(Land land);
+        Task CreateLandAsync(Land land);
         Task<Land?> GetLandByIdAsync(int id);
         Task<IEnumerable<Land>?> GetAllLandAsync();
         Task<Land?> UpdateLand(Land land);

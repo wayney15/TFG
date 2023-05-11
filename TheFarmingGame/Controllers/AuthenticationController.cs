@@ -37,7 +37,7 @@ namespace TheFarmingGame.Controllers
             // need input validation
             try
             {
-                await _userService.Register(request.username, request.password, request.alias);
+                await _userService.RegisterAsync(request.username, request.password, request.alias);
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace TheFarmingGame.Controllers
             {
                 return BadRequest("Empty username or password.");
             }
-            var user = await _userService.Login(request.UserName, request.Password);
+            var user = await _userService.LoginAsync(request.UserName, request.Password);
             if (user == null)
             {
                 _logger.LogError("Failed to login user: " + request.UserName + ".");

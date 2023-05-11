@@ -8,7 +8,6 @@
             Plant = 0;
             HarvestTime = null;
             IsProtected = false;
-            BidTime = null;
         }
         public int Id { get; set; }
         public string? Alias { get; set; }
@@ -17,7 +16,6 @@
         public DateTime? HarvestTime { get; set; }
         public bool IsProtected { get; set; }
         public int? UserId { get; set; }
-        public string? UserAlias { get; set; }
-        public DateTime? BidTime { get; set; }
+        public User? User { get; set; }
     }
 }

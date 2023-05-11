@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheFarmingGame.Domains;
 using TheFarmingGame.Repositories;
 using TheFarmingGame.Domains;
 
@@ -15,18 +16,30 @@ namespace TheFarmingGame.Services
         {
             _bidRepository = bidRepository;
         }
+        public async Task AddBidAsync(Bid bid)
+        {
+            try
+            {
+                await _bidRepository.AddBidAsync(bid);
+            }
+            catch (Exception ex)
+            {
+                // Log the error and return an error result to the caller
+                throw new Exception("Error saving entity.", ex);
+            }
+        }
 
-        public async Task<IEnumerable<Bid>?> GetAllBidAsync()
+        public async Task<IEnumerable<Bid>> GetBidsByLandBidIdAsync(int landBidId)
         {
-            return await _bidRepository.GetAllBidAsync();
+            return await _bidRepository.GetBidsByLandBidIdAsync(landBidId); 
         }
-        public Task<String> ListBids()
+        public async Task<IEnumerable<Bid>> GetBidsByLandBidIdAndUserIdAsync(int landBidId, int userId)
         {
-            return null;
+            return await _bidRepository.GetBidsByLandBidIdAndUserIdAsync(landBidId, userId);
         }
-        public Task<String> ListUserBids(string Id)
+        public async Task<IEnumerable<Bid>> GetAllBidsAsync()
         {
-            return null;
+            return await _bidRepository.GetAllBidsAsync();
         }
     }
 }

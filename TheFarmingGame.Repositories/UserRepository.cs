@@ -50,7 +50,7 @@ namespace TheFarmingGame.Repositories
             return await _theFarmingGameDbContext.Users.FirstOrDefaultAsync(u => u.UserName == username);
         }
 
-        public async Task<IEnumerable<User>?> GetAllUsersExceptSelfAsync(int selfId)
+        public async Task<IEnumerable<User>> GetAllUsersExceptSelfAsync(int selfId)
         {
             return await _theFarmingGameDbContext.Users.Where(u => u.Id != selfId).ToListAsync();
         }

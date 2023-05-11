@@ -13,7 +13,7 @@ namespace TheFarmingGame.Repositories
         Task<User?> GetUserByIdAsync(int id);
         Task<User?> GetUserByAliasAsync(string alias);
         Task<User?> GetUserByUsernameAsync(string username);
-        Task<IEnumerable<User>?> GetAllUsersExceptSelfAsync(int selfId);
+        Task<IEnumerable<User>> GetAllUsersExceptSelfAsync(int selfId);
         Task<User?> UpdateLand(User user);
 
     }
