@@ -1,34 +1,44 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿﻿using Microsoft.Extensions.Configuration;
 using TheFarmingGame.Domains;
 using TheFarmingGame.Services;
 using TheFarmingGame.Repositories;
 
-public class LandGeneratorService : IHostedService
+public class LandGeneratorService : BackgroundService
 {
     private readonly ILogger<LandGeneratorService> _logger;
     private readonly ILandService _landService;
+    private readonly ILandBidService _landBidService;
 
     public LandGeneratorService(ILogger<LandGeneratorService> logger,  IServiceProvider _serviceProvider)
     {
         _logger = logger;
         _landService = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILandService>();
+        _landBidService = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILandBidService>();
 
     }
 
     public async Task StartAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("Timed Hosted Service running.");
+        return;
+    }
 
+    public async Task StopAsync(CancellationToken stoppingToken)
+    {
+        return;
+    }
+
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
         while(!stoppingToken.IsCancellationRequested)
         {
             for(int i = 0; i < 3; i++)
             {
-                // starterLand.Id = starterLand.Id + 1;
-                // starterLand.Alias = "Land" + starterLand.Id;
                 try
                 {
                         await _landService.GenerateNewLand();
                         _logger.LogInformation("New Land Made");
+                        await _landBidService.GenerateNewLandBid();
+                        _logger.LogInformation("New Land Bid Made");
                 }
                 catch (Exception ex)
                 {
@@ -37,17 +47,8 @@ public class LandGeneratorService : IHostedService
                 }
             }
             _logger.LogInformation("3 New Lands Made");
-            Task delayTask = Task.Delay(TimeSpan.FromMinutes(5));
-            delayTask.Wait();
+            Task.Delay(TimeSpan.FromMinutes(5)).Wait();
         }
-
         return;
-    }
-
-    public Task StopAsync(CancellationToken stoppingToken)
-    {
-        _logger.LogInformation("Stopped producing Land.");
-
-        return Task.CompletedTask;
     }
 }
