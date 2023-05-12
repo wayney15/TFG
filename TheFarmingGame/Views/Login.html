@@ -33,11 +33,11 @@
                 type: "GET",
                 url: "https://localhost:7244/api/Authentication/Login",
                 contentType: "application/json",
-                data: JSON.stringify(usercreds),
+                data: JSON.parse(usercreds),
                 dataType: "json",
                 success: function (data) {
                     setCookies: data.token;
-            });
+                }
             });
         });
     });
