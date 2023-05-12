@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TheFarmingGame.Domains;
@@ -22,6 +23,7 @@ namespace TheFarmingGame.Controllers
             _landBidService = landBidService;
         }
 
+        [Authorize]
         [Route("MakeBid")]
         [HttpPost]
         public async Task<IActionResult> MakeBid([FromBody] BidRequest request)

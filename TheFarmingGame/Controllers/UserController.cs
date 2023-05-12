@@ -50,6 +50,7 @@ namespace TheFarmingGame.Controllers
         }
 
         // GET api/<userController>/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
