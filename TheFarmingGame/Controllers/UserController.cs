@@ -51,9 +51,24 @@ namespace TheFarmingGame.Controllers
 
         // GET api/<userController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(string id)
         {
-            return "value";
+            User user = await _userService.GetUserByIdAsync(Convert.ToInt32(id));
+            if(user == null)
+            {
+                return NotFound("User not found.");
+            }
+            UserResponse userResponse = new UserResponse()
+            {
+                Alias = user.Alias,
+                Lands = user.Lands,
+                Money = user.Money,
+                ProtectAmount = user.ProtectAmount,
+                StealAmount = user.StealAmount,
+                
+            };
+
+            return Ok(userResponse);
         }
 
         // POST api/<userController>

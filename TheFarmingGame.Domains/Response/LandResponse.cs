@@ -1,20 +1,19 @@
-﻿namespace TheFarmingGame.Domains
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TheFarmingGame.Domains.Response
 {
-    public class Land
+    public class LandResponse
     {
-        public Land() {
-            Alias = null;
-            Level = 0;
-            Plant = 0;
-            HarvestTime = null;
-            IsProtected = false;
-        }
         public int Id { get; set; }
         public string? Alias { get; set; }
         public int Level { get; set; }
         public int Plant { get; set; }
         public DateTime? HarvestTime { get; set; }
         public bool IsProtected { get; set; }
-        public int? UserId { get; set; }
+        public string? UserAlias { get; set; }
     }
 }

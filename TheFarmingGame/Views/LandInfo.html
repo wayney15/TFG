@@ -1,0 +1,76 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="Style/site.css" asp-append-version="true" />
+
+    <script>
+        $(document).ready(function () {
+            var id = 5;
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/land/GetAllLands",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    CORS: false,
+                    headers: {
+                    "Access-Control-Allow-Origin": '*',
+                    },
+                    success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#LandList').empty();
+                        $('#LandList').append('<tr>');
+                        $('#LandList').append('<th> Alias </th>');
+                        $('#LandList').append('<th> Level </th>');
+                        $('#LandList').append('<th> Plant </th>');
+                        $('#LandList').append('<th> Harvest Time </th>');
+                        $('#LandList').append('<th> Is Protected </th>');
+                        $('#LandList').append('<th> UserAlias </th>');
+                        $('#LandList').append('<th> Bid Time </th>');
+                        $('#LandList').append('</tr>');
+
+                        $.each( data, function( key, value ) {
+                            $('#LandList').append('<tr>');
+                            $('#LandList').append('<td> ' + value.alias + '</td>');
+                            $('#LandList').append('<td> ' + value.level + '</td>');
+                            $('#LandList').append('<td> ' + value.plant + '</td>');
+                            $('#LandList').append('<td> ' + value.harvesttime + '</td>');
+                            $('#LandList').append('<td> ' + value.isprotected + '</td>');
+                            $('#LandList').append('<td> ' + value.useralias + '</td>');
+                            $('#LandList').append('<td> ' + value.bidtime + '</td>');
+                            $('#LandList').append('</tr>');
+                        });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
+        });
+    </script>
+
+</head>
+<body>
+    <header>
+        The Farming Game - Land Information
+    </header>
+    <p>
+        
+        Land Information:
+    </p>
+    <table id="LandList">
+    </table>
+    <p>
+
+    </p>
+    <button onclick="window.location.href='Menu.html';">
+        Back
+    </button>
+    
+</body>
+</html>
+

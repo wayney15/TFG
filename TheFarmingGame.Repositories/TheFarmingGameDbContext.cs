@@ -22,6 +22,12 @@ namespace TheFarmingGame.Repositories
             modelBuilder.Entity<User>()
                 .HasIndex(e => e.UserName)
                 .IsUnique();
+            modelBuilder.Entity<Land>()
+                .HasIndex(e => e.Id)
+                .IsUnique();
+            modelBuilder.Entity<Bid>()
+                .HasIndex(e => e.Id)
+                .IsUnique();
         }
     }
 }

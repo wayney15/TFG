@@ -30,5 +30,19 @@ namespace TheFarmingGame.Services
                 throw new Exception("Error saving entity.", ex);
             }
         }
+
+        public Task<String> ListLands()
+        {
+            return null;
+        }
+        public Task<String> ListUserLands(string Id)
+        {
+            return null;
+        }
+
+        public async Task<IEnumerable<Land>> GetAllLandAsync()
+        {
+            return await _landRepository.GetAllLandAsync();
+        }
     }
 }

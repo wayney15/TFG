@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register</title>
-    <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="Style/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -37,6 +37,10 @@
                 url: "/api/Authentication/Register",
                 contentType: "application/json; charset=utf-8",
                 data: usercreds,
+                CORS: false,
+                headers: {
+                    "Access-Control-Allow-Origin": '*',
+                },
                 dataType: "json"
             });
         });

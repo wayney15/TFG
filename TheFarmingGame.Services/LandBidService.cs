@@ -10,10 +10,23 @@ namespace TheFarmingGame.Services
 {
     public class LandBidService : ILandBidService
     {
-        private readonly LandBidRepository _landBidRepository;
-        public LandBidService(LandBidRepository landBidRepository)
+        private readonly ILandBidRepository _landBidRepository;
+        public LandBidService(ILandBidRepository landBidRepository)
         {
             _landBidRepository = landBidRepository;
+        }
+
+        public async Task GenerateNewLandBid()
+        {
+            try
+            {
+                await _landBidRepository.CreateLandBidAsync(new LandBid());
+            }
+            catch (Exception ex)
+            {
+                // Log the error and return an error result to the caller
+                throw new Exception("Error saving entity.", ex);
+            }
         }
 
         public async Task<LandBid?> GetLandBidByLandIdAsync(int landId)

@@ -1,0 +1,56 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
+
+    <script>
+        $(document).ready(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/api/Gameplay/ListUserLands",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function(data, textStatus, xhr){
+                        $('#UserLands').empty();
+                        $('#UserLands').append('<tr> <th> Alias </th>');
+                        $('#UserLands').append('<th> Level </th>');
+                        $('#UserLands').append('<th> Plant </th>');
+                        $('#UserLands').append('<th> HarvestTime </th>');
+                        $('#UserLands').append('<th> IsProtected </th>');
+                        $('#UserLands').append('<th> User Alias </th>');
+                        $('#UserLands').append('<th> Bid Time </th> </tr>');
+
+                        $('#UserLands').append(data);
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
+        });
+    </script>
+
+</head>
+<body>
+    <header>
+        The Farming Game - Your Lands
+    </header>
+    <p>
+        Your Lands:
+    </p>
+    <table id="UserLands">
+    <p>
+
+    </p>
+    <button onclick="window.location.href='Menu.html';">
+        Back
+    </button>
+    
+</body>
+</html>
+

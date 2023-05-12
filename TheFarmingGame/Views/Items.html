@@ -1,0 +1,48 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        The Farming Game - Items
+    </header>
+    <p>
+        Auto Harvest Purchase Amount:
+    </p>
+    <div>
+        <input type="text" class="textbox" id="AutoHarv" name="AutoHarv" placeholder="Amount" />
+    </div>
+    <p>
+        Protection Amount:
+    </p>
+    <div>
+        <input type="text" class="textbox" id="Protect" name="Protect" placeholder="Amount" />
+    </div>
+    <div>
+        <input type="button" value="Submit" name="Submit" id="Submit" />
+    </div>
+    <button onclick="window.location.href='Menu.html';">
+        Back
+    </button>
+    
+</body>
+</html>
+
+<script>
+    $(document).ready(function () {
+            var usercreds = '{AutoHarvest: "' + $("#AutoHarv").val() + '" , Protection: "' + $("#Protect").val() + '" }';
+            $.ajax({
+                type: "POST",
+                url: "https://localhost:7244/api/Gameplay/BuyItems",
+                contentType: "application/json; charset=utf-8",
+                data: usercreds,
+                dataType: "json"
+            });
+    });
+</script>

@@ -1,4 +1,4 @@
-﻿using Konscious.Security.Cryptography;
+﻿﻿using Konscious.Security.Cryptography;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;

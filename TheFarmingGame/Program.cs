@@ -10,14 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddHostedService<LandGeneratorService>();
 
 builder.Services.AddDbContext<TheFarmingGameDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILandService, LandService>();
+builder.Services.AddScoped<ILandBidService, LandBidService>();
+builder.Services.AddScoped<IBidService, BidService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILandRepository, LandRepository>();
+builder.Services.AddScoped<ILandBidRepository, LandBidRepository>();
 builder.Services.AddScoped<IBidRepository, BidRepository>();
 
 // add auth
@@ -51,6 +55,7 @@ var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 app.UseCors("corsapp");
 app.Run();
