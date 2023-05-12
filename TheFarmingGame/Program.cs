@@ -17,9 +17,11 @@ builder.Services.AddDbContext<TheFarmingGameDbContext>(options =>
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILandService, LandService>();
+builder.Services.AddScoped<ILandBidService, LandBidService>();
 builder.Services.AddScoped<IBidService, BidService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILandRepository, LandRepository>();
+builder.Services.AddScoped<ILandBidRepository, LandBidRepository>();
 builder.Services.AddScoped<IBidRepository, BidRepository>();
 
 // add auth
