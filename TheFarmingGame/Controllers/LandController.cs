@@ -42,8 +42,6 @@ namespace TheFarmingGame.Controllers
                 lr.Plant = l.Plant;
                 lr.HarvestTime = l.HarvestTime;
                 lr.IsProtected = l.IsProtected;
-                lr.UserAlias = l.UserAlias;
-                lr.BidTime = l.BidTime;
                 returnList.Add(lr);
             }
             return Ok(returnList);

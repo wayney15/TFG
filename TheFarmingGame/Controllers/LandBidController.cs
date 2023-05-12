@@ -37,7 +37,7 @@ namespace TheFarmingGame.Controllers
         }
 
         [Authorize]
-        [Route("GetAllActiveLandBids")]
+        [Route("GetAllInActiveLandBids")]
         [HttpGet]
         public async Task<IActionResult> GetAllInActiveLandBids()
         {

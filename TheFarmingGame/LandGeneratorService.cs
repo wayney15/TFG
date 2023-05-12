@@ -3,45 +3,32 @@ using TheFarmingGame.Domains;
 using TheFarmingGame.Services;
 using TheFarmingGame.Repositories;
 
-public class LandGeneratorService : BackgroundService
+public class LandGeneratorService : IHostedService
 {
+    private readonly ILogger<LandGeneratorService> _logger;
     private readonly ILandService _landService;
-    private readonly IConfiguration _configuration;
-    public IServiceProvider _serviceProvider { get; }
-    public LandGeneratorService(IConfiguration configuration, ILandService landService)
+
+    public LandGeneratorService(ILogger<LandGeneratorService> logger,  IServiceProvider _serviceProvider)
     {
-        _configuration = configuration;
-        _landService = landService;
+        _logger = logger;
+        _landService = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILandService>();
 
     }
 
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+    public async Task StartAsync(CancellationToken stoppingToken)
     {
-        Land starterLand = new Land();
-        starterLand.Id = 0;
-        starterLand.HarvestTime = new DateTime();
-        starterLand.BidTime = new DateTime();
-        starterLand.Level = 1;
-        starterLand.Plant = 0;
-        starterLand.HarvestTime = DateTime.Now;
-        starterLand.IsProtected = false;
-        starterLand.UserId = 0;
-        starterLand.UserAlias = "N/A";
+        _logger.LogInformation("Timed Hosted Service running.");
 
-        while(!cancellationToken.IsCancellationRequested)
+        while(!stoppingToken.IsCancellationRequested)
         {
             for(int i = 0; i < 3; i++)
             {
-                starterLand.Id = starterLand.Id + 1;
-                starterLand.Alias = "Land" + starterLand.Id;
+                // starterLand.Id = starterLand.Id + 1;
+                // starterLand.Alias = "Land" + starterLand.Id;
                 try
                 {
-                    using (var scope = _serviceProvider.CreateScope())
-                    {
-                        var context = scope.ServiceProvider.GetService<LandRepository>();
-
-                        await _landService.GenerateNewLand(starterLand);
-                    }
+                        await _landService.GenerateNewLand();
+                        _logger.LogInformation("New Land Made");
                 }
                 catch (Exception ex)
                 {
@@ -49,8 +36,18 @@ public class LandGeneratorService : BackgroundService
                     throw new Exception("Error creating new land.", ex);
                 }
             }
-            Console.Write("3 New Lands made");
-            Task dummyTask = Task.Delay(TimeSpan.FromMinutes(5));
+            _logger.LogInformation("3 New Lands Made");
+            Task delayTask = Task.Delay(TimeSpan.FromMinutes(5));
+            delayTask.Wait();
         }
+
+        return;
+    }
+
+    public Task StopAsync(CancellationToken stoppingToken)
+    {
+        _logger.LogInformation("Stopped producing Land.");
+
+        return Task.CompletedTask;
     }
 }

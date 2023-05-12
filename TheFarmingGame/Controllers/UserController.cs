@@ -53,7 +53,7 @@ namespace TheFarmingGame.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            User user = await _userService.GetUser(Convert.ToInt32(id));
+            User user = await _userService.GetUserByIdAsync(Convert.ToInt32(id));
             if(user == null)
             {
                 return NotFound("User not found.");
