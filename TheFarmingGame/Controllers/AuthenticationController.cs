@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -28,6 +29,7 @@ namespace TheFarmingGame.Controllers
 
         [Route("Register")]
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             if(request.username == null || request.password == null || request.alias == null)
@@ -47,8 +49,10 @@ namespace TheFarmingGame.Controllers
             return Ok();
         }
 
+
         [Route("Login")]
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             if (request.UserName == null || request.Password == null)

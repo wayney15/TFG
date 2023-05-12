@@ -11,6 +11,7 @@ namespace TheFarmingGame.Repositories
     {
         Task CreateLandAsync(Land land);
         Task<Land?> GetLandByIdAsync(int id);
+        Task<IEnumerable<Land>> GetLandByUserIdAsync(int UserId);
         Task<IEnumerable<Land>> GetAllLandAsync();
         Task<Land?> UpdateLand(Land land);
     }

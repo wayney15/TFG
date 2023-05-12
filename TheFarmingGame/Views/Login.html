@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
-    <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/Style/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -28,13 +28,16 @@
 <script>
     $(document).ready(function () {
         $("#Login").click(function(){
-            var usercreds = '{UserName: "' + $("#User").val() + '" , Password: "' + $("#Pass").val() + '" }';
+            var usercreds = '{\"username\": "' + $("#User").val() + '" , \"password\": "' + $("#Pass").val() + '"}';
             $.ajax({
-                type: "POST",
-                url: "/api/Authentication/Login",
-                contentType: "application/json; charset=utf-8",
-                data: usercreds,
-                dataType: "json"
+                type: "GET",
+                url: "https://localhost:7244/api/Authentication/Login",
+                contentType: "application/json",
+                data: JSON.stringify(usercreds),
+                dataType: "json",
+                success: function (data) {
+                    setCookies: data.token;
+            });
             });
         });
     });

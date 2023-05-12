@@ -10,7 +10,7 @@
 
     <script>
         $(document).ready(function () {
-            var id = 5;
+            $("#UserSearch").click(function(){
                 $.ajax({
                     type: "GET",
                     url: "https://localhost:7244/bid/GetAllBids",
@@ -46,6 +46,7 @@
                         alert("Error: " + error.responseText);
                     }
                 });
+            }
         });
     </script>
 
@@ -57,6 +58,27 @@
     <p>
         
         Bid Information:
+    </p>
+    <div>
+        <input type="text" class="textbox" id="User" name="User" placeholder="UserAlias" />
+    </div>
+    <div>
+        <input type="button" value="UserSearch" name="UserSearch" id="UserSearch" />
+    </div>
+    <div>
+        <input type="text" class="textbox" id="Land" name="Land" placeholder="Land" />
+    </div>
+    <div>
+        <input type="button" value="LandSearch" name="LandSearch" id="LandSearch" />
+    </div>
+    <div>
+        <input type="button" value="Active Bid Search" name="ActiveSearch" id="ActiveSearch" />
+    </div>
+    <div>
+        <input type="button" value="Inactive Bid Search" name="InactiveSearch" id="LandSearch" />
+    </div>
+    <p>
+        
     </p>
     <table id="BidList">
     </table>
