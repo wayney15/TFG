@@ -9,6 +9,26 @@
 
     <script>
         $(document).ready(function () {
+            $("#Rename").click(function(){
+                var jsondata = {alias: $("#Alias").val(), landid: $("#Land").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/Land/Rename",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata),
+                    success: function (response) {
+                        $('#Land').val("");
+                        $('#Plant').val("");
+                        jQuery("#Refresh").trigger();
+                    },
+                    error: function (jqXHR, options, thrownErr) {
+                        if(jqXHR.statusText != 200)
+                            $('#Error').text(jqXHR.responseText)
+                    }
+                });
+            });
             $.ajax({
                 type: "GET",
                 url: "https://localhost:7244/api/Land/GetCurrentUserLands",
@@ -55,13 +75,22 @@
     <p>
         Your Lands:
     </p>
+    <div>
+        <input type="text" class="textbox" id="Alias" name="Alias" placeholder="Alias" />
+    </div>
+    <div>
+        <input type="text" class="textbox" id="Land" name="Land" placeholder="LandId" />
+    </div>
+    <div>
+        <input type="button" value="Rename" name="Rename" id="Rename" />
+    </div>
+    <button onclick="window.location.href='Menu.html';">
+        Back
+    </button>
     <table id="LandList">
     <p>
 
     </p>
-    <button onclick="window.location.href='Menu.html';">
-        Back
-    </button>
     
 </body>
 </html>

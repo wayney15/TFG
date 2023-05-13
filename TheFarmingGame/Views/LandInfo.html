@@ -28,8 +28,6 @@
                         $('#LandList').append('</tr>');
 
                         $.each( data, function( key, value ) {
-                            if(value.userAlias == null)
-                                return;
                             if (value.harvestTime != null)
                                 var harvestdate = new Date(value.harvestTime);
                             $('#LandList').append('<tr>');
