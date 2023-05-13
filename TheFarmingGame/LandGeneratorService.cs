@@ -23,7 +23,7 @@ public class LandGeneratorService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        const int interval = 1;
+        const int interval = 3;
         while(!stoppingToken.IsCancellationRequested)
         {
             // generate new lands

@@ -31,7 +31,7 @@ namespace TheFarmingGame.Controllers
         public async Task<IActionResult> GetAllLands()
         {
             var landList = await _landService.GetAllLandAsync();
-            if(landList == null)
+            if(landList.Count() == 0)
             {
                 return Ok();
             }
@@ -39,6 +39,14 @@ namespace TheFarmingGame.Controllers
             foreach(Land l in landList)
             {
                 LandResponse lr = new LandResponse();
+                if (l.UserId == null)
+                    lr.UserAlias = null;
+                else
+                {
+                    var alias = (await _userService.GetUserByIdAsync((int)l.UserId)).Alias;
+                    lr.UserAlias = alias;
+                }
+                lr.Id = l.Id;
                 lr.Alias = l.Alias;
                 lr.Plant = l.Plant;
                 lr.HarvestTime = l.HarvestTime;
@@ -67,6 +75,13 @@ namespace TheFarmingGame.Controllers
             foreach(Land l in landList)
             {
                 LandResponse lr = new LandResponse();
+                if (l.UserId == null)
+                    lr.UserAlias = null;
+                else
+                {
+                    var alias = (await _userService.GetUserByIdAsync((int)l.UserId)).Alias;
+                    lr.UserAlias = alias;
+                }
                 lr.Id = l.Id;
                 lr.Alias = l.Alias;
                 lr.Plant = l.Plant;
