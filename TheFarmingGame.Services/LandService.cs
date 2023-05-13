@@ -54,9 +54,9 @@ namespace TheFarmingGame.Services
         {
             return await _landRepository.GetLandByUserIdAsync(UserId);
         }
-        public async Task<IEnumerable<Land>> GetLandByIdAsync(int Id)
+        public async Task<Land?> GetLandByIdAsync(int Id)
         {
-            return await _landRepository.GetLandByUserIdAsync(Id);
+            return await _landRepository.GetLandByIdAsync(Id);
         }
     }
 }
