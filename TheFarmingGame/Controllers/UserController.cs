@@ -81,7 +81,7 @@ namespace TheFarmingGame.Controllers
             {
                 return NotFound("Current user not found.");
             }
-            var userList = await _userService.GetAllUsersExceptSelfAsync(int.Parse(userId));
+            var userList = await _userService.GetAllUsersAsync();
             if(userList.Count() == 0)
             {
                 return NotFound("You are the only user");

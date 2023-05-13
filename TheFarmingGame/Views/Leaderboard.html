@@ -11,29 +11,29 @@
     <script>
         $(document).ready(function () {
             var counter = 0;
-            $("#UserSearch").click(function(){
                 $.ajax({
                     type: "GET",
-                    url: "https://localhost:7244/User/Leaderboard",
+                    url: "https://localhost:7244/api/User/Leaderboard",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     headers: { Authorization: "bearer " + localStorage.getItem("token")},
                     success: function(data, textStatus, xhr){
                         counter = 0;
                         console.log(data);
-                        $('#BidList').empty();
-                        $('#BidList').append('<tr>');
-                        $('#BidList').append('<th> Position </th>');
-                        $('#BidList').append('<th> Alias </th>');
-                        $('#BidList').append('<th> Money </th>');
-                        $('#BidList').append('</tr>');
+                        $('#Leaderboard').empty();
+                        $('#Leaderboard').append('<tr>');
+                        $('#Leaderboard').append('<th> Position </th>');
+                        $('#Leaderboard').append('<th> Alias </th>');
+                        $('#Leaderboard').append('<th> Money </th>');
+                        $('#Leaderboard').append('</tr>');
 
                         $.each( data, function( key, value ) {
-                            $('#BidList').append('<tr>');
-                            $('#BidList').append('<td> ' + counter + '</td>');
-                            $('#BidList').append('<td> ' + value.alias + '</td>');
-                            $('#BidList').append('<td> ' + value.money + '</td>');
-                            $('#BidList').append('</tr>');
+                            counter = counter + 1;
+                            $('#Leaderboard').append('<tr>');
+                            $('#Leaderboard').append('<td> ' + counter + '</td>');
+                            $('#Leaderboard').append('<td> ' + value.alias + '</td>');
+                            $('#Leaderboard').append('<td> ' + value.money + '</td>');
+                            $('#Leaderboard').append('</tr>');
                         });
                         
                     },
@@ -41,7 +41,6 @@
                         alert("Error: " + error.responseText);
                     }
                 });
-            })
         });
     </script>
 
@@ -53,6 +52,8 @@
     <button onclick="window.location.href='Menu.html';">
         Back
     </button>
+    <table id="Leaderboard">
+    </table>
     
 </body>
 </html>

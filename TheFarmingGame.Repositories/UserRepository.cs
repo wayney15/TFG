@@ -54,6 +54,10 @@ namespace TheFarmingGame.Repositories
         {
             return await _theFarmingGameDbContext.Users.Where(u => u.Id != selfId).ToListAsync();
         }
+        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        {
+            return await _theFarmingGameDbContext.Users.ToListAsync();
+        }
         public async Task<User?> UpdateLand(User user)
         {
             var result = await _theFarmingGameDbContext.Users
