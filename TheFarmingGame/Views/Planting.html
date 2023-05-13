@@ -32,6 +32,17 @@
                     data: JSON.stringify(jsondata)
                 });
             });
+            $("#SubmitProtect").click(function(){
+                var jsondata = {landid: $("#HLand").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/Land/Protect",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata)
+                });
+            });
             $.ajax({
                 type: "GET",
                 url: "https://localhost:7244/api/Land/GetCurrentUserLands",
@@ -48,18 +59,21 @@
                         $('#LandList').append('<th> Harvest Time </th>');
                         $('#LandList').append('<th> Is Protected </th>');
                         $('#LandList').append('<th> UserAlias </th>');
-                        $('#LandList').append('<th> Bid Time </th>');
                         $('#LandList').append('</tr>');
 
                         $.each( data, function( key, value ) {
+                            if (value.harvestTime != null)
+                                var harvestdate = new Date(value.harvestTime);
                             $('#LandList').append('<tr>');
                             $('#LandList').append('<td> ' + value.id + '</td>');
                             $('#LandList').append('<td> ' + value.alias + '</td>');
                             $('#LandList').append('<td> ' + value.plant + '</td>');
-                            $('#LandList').append('<td> ' + value.harvesttime + '</td>');
-                            $('#LandList').append('<td> ' + value.isprotected + '</td>');
-                            $('#LandList').append('<td> ' + value.useralias + '</td>');
-                            $('#LandList').append('<td> ' + value.bidtime + '</td>');
+                            if (value.harvestTime != null)
+                                $('#LandList').append('<td> ' + harvestdate.getHours() + ':' + harvestdate.getMinutes() + '</td>');
+                            else
+                                $('#LandList').append('<td> N/A </td>');
+                            $('#LandList').append('<td> ' + value.isProtected + '</td>');
+                            $('#LandList').append('<td> ' + value.userAlias + '</td>');
                             $('#LandList').append('</tr>');
                         });
                     
@@ -90,10 +104,19 @@
 
     </p>
     <div>
-        <input type="text" class="textbox" id="HLand" name="Land" placeholder="LandId" />
+        <input type="text" class="textbox" id="HLand" name="HLand" placeholder="LandId" />
     </div>
     <div>
         <input type="button" value="Harvest" name="Harvest" id="SubmitHarvest" />
+    </div>
+    <p>
+
+    </p>
+    <div>
+        <input type="text" class="textbox" id="PLand" name="PLand" placeholder="LandId" />
+    </div>
+    <div>
+        <input type="button" value="Protect" name="Protect" id="SubmitProtect" />
     </div>
     <button onclick="window.location.href='Menu.html';">
         Back

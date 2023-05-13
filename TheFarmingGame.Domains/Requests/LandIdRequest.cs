@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheFarmingGame.Domains.Requests
 {
-    public class HarvestRequest
+    public class LandIdRequest
     {
         public int landid { get; set; }
     }

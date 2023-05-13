@@ -21,24 +21,27 @@
                         console.log(data);
                         $('#LandList').empty();
                         $('#LandList').append('<tr>');
+                        $('#LandList').append('<th> Id </th>');
                         $('#LandList').append('<th> Alias </th>');
-                        $('#LandList').append('<th> Level </th>');
                         $('#LandList').append('<th> Plant </th>');
                         $('#LandList').append('<th> Harvest Time </th>');
                         $('#LandList').append('<th> Is Protected </th>');
                         $('#LandList').append('<th> UserAlias </th>');
-                        $('#LandList').append('<th> Bid Time </th>');
                         $('#LandList').append('</tr>');
 
                         $.each( data, function( key, value ) {
+                            if (value.harvestTime != null)
+                                var harvestdate = new Date(value.harvestTime);
                             $('#LandList').append('<tr>');
+                            $('#LandList').append('<td> ' + value.id + '</td>');
                             $('#LandList').append('<td> ' + value.alias + '</td>');
-                            $('#LandList').append('<td> ' + value.level + '</td>');
                             $('#LandList').append('<td> ' + value.plant + '</td>');
-                            $('#LandList').append('<td> ' + value.harvesttime + '</td>');
-                            $('#LandList').append('<td> ' + value.isprotected + '</td>');
-                            $('#LandList').append('<td> ' + value.useralias + '</td>');
-                            $('#LandList').append('<td> ' + value.bidtime + '</td>');
+                            if (value.harvestTime != null)
+                                $('#LandList').append('<td> ' + harvestdate.getHours() + ':' + harvestdate.getMinutes() + '</td>');
+                            else
+                                $('#LandList').append('<td> N/A </td>');
+                            $('#LandList').append('<td> ' + value.isProtected + '</td>');
+                            $('#LandList').append('<td> ' + value.userAlias + '</td>');
                             $('#LandList').append('</tr>');
                         });
                         
