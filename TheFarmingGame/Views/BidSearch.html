@@ -21,26 +21,26 @@
                         console.log(data);
                         $('#BidList').empty();
                         $('#BidList').append('<tr>');
-                        $('#BidList').append('<th> Alias </th>');
-                        $('#BidList').append('<th> Level </th>');
-                        $('#BidList').append('<th> Plant </th>');
-                        $('#BidList').append('<th> Harvest Time </th>');
-                        $('#BidList').append('<th> Is Protected </th>');
-                        $('#BidList').append('<th> UserAlias </th>');
-                        $('#BidList').append('<th> Bid Time </th>');
+                        $('#BidList').append('<th> Land Id </th>');
+                        $('#BidList').append('<th> Expiration Time </th>');
+                        $('#BidList').append('<th> User Won </th>');
                         $('#BidList').append('</tr>');
 
                         $.each( data, function( key, value ) {
+                            if (value.expirationTime != null)
+                                var expirationDate = new Date(value.expirationTime);
                             $('#BidList').append('<tr>');
-                            $('#BidList').append('<td> ' + value.landalias + '</td>');
-                            $('#BidList').append('<td> ' + value.useralias + '</td>');
-                            $('#BidList').append('<td> ' + value.bidamount + '</td>');
+                            $('#BidList').append('<td> ' + value.landId + '</td>');
+                            if (value.expirationTime != null)
+                                $('#BidList').append('<td> ' + expirationDate.getHours() + ':' + expirationDate.getMinutes() + '</td>');
+                            else
+                                $('#BidList').append('<td> N/A </td>');
+                            if (value.userWon != null)
+                                $('#BidList').append('<td> ' + value.userWon + '</td>');
+                            else
+                                $('#BidList').append('<td> No Winner </td>');
                             $('#BidList').append('</tr>');
                         });
-                        
-                    },
-                    error: function(error){
-                        alert("Error: " + error.responseText);
                     }
                 });
             }),
@@ -55,29 +55,26 @@
                         console.log(data);
                         $('#BidList').empty();
                         $('#BidList').append('<tr>');
-                        $('#BidList').append('<th> Id </th>');
-                        $('#BidList').append('<th> Expiration Time </th>');
-                        $('#BidList').append('<th> Is Finished </th>');
                         $('#BidList').append('<th> Land Id </th>');
+                        $('#BidList').append('<th> Expiration Time </th>');
+                        $('#BidList').append('<th> User Won </th>');
                         $('#BidList').append('</tr>');
 
                         $.each( data, function( key, value ) {
                             if (value.expirationTime != null)
                                 var expirationDate = new Date(value.expirationTime);
                             $('#BidList').append('<tr>');
-                            $('#BidList').append('<td> ' + value.id + '</td>');
+                            $('#BidList').append('<td> ' + value.landId + '</td>');
                             if (value.expirationTime != null)
                                 $('#BidList').append('<td> ' + expirationDate.getHours() + ':' + expirationDate.getMinutes() + '</td>');
                             else
                                 $('#BidList').append('<td> N/A </td>');
-                            $('#BidList').append('<td> ' + value.isFinished + '</td>');
-                            $('#BidList').append('<td> ' + value.landId + '</td>');
+                            if (value.userWon != null)
+                                $('#BidList').append('<td> ' + value.userWon + '</td>');
+                            else
+                                $('#BidList').append('<td> No Winner </td>');
                             $('#BidList').append('</tr>');
                         });
-                        
-                    },
-                    error: function(error){
-                        alert("Error: " + error.responseText);
                     }
                 });
             }),
@@ -92,29 +89,26 @@
                         console.log(data);
                         $('#BidList').empty();
                         $('#BidList').append('<tr>');
-                        $('#BidList').append('<th> Id </th>');
-                        $('#BidList').append('<th> Expiration Time </th>');
-                        $('#BidList').append('<th> Is Finished </th>');
                         $('#BidList').append('<th> Land Id </th>');
+                        $('#BidList').append('<th> Expiration Time </th>');
+                        $('#BidList').append('<th> User Won </th>');
                         $('#BidList').append('</tr>');
 
                         $.each( data, function( key, value ) {
                             if (value.expirationTime != null)
                                 var expirationDate = new Date(value.expirationTime);
                             $('#BidList').append('<tr>');
-                            $('#BidList').append('<td> ' + value.id + '</td>');
+                            $('#BidList').append('<td> ' + value.landId + '</td>');
                             if (value.expirationTime != null)
                                 $('#BidList').append('<td> ' + expirationDate.getHours() + ':' + expirationDate.getMinutes() + '</td>');
                             else
                                 $('#BidList').append('<td> N/A </td>');
-                            $('#BidList').append('<td> ' + value.isFinished + '</td>');
-                            $('#BidList').append('<td> ' + value.landId + '</td>');
+                            if (value.userWon != null)
+                                $('#BidList').append('<td> ' + value.userWon + '</td>');
+                            else
+                                $('#BidList').append('<td> No Winner </td>');
                             $('#BidList').append('</tr>');
                         });
-                        
-                    },
-                    error: function(error){
-                        alert("Error: " + error.responseText);
                     }
                 });
             }),
@@ -129,23 +123,24 @@
                         console.log(data);
                         $('#BidList').empty();
                         $('#BidList').append('<tr>');
-                        $('#BidList').append('<th> Id </th>');
-                        $('#BidList').append('<th> Expiration Time </th>');
-                        $('#BidList').append('<th> Is Finished </th>');
                         $('#BidList').append('<th> Land Id </th>');
+                        $('#BidList').append('<th> Expiration Time </th>');
+                        $('#BidList').append('<th> User Won </th>');
                         $('#BidList').append('</tr>');
 
                         $.each( data, function( key, value ) {
                             if (value.expirationTime != null)
                                 var expirationDate = new Date(value.expirationTime);
                             $('#BidList').append('<tr>');
-                            $('#BidList').append('<td> ' + value.id + '</td>');
+                            $('#BidList').append('<td> ' + value.landId + '</td>');
                             if (value.expirationTime != null)
                                 $('#BidList').append('<td> ' + expirationDate.getHours() + ':' + expirationDate.getMinutes() + '</td>');
                             else
                                 $('#BidList').append('<td> N/A </td>');
-                            $('#BidList').append('<td> ' + value.isFinished + '</td>');
-                            $('#BidList').append('<td> ' + value.landId + '</td>');
+                            if (value.userWon != null)
+                                $('#BidList').append('<td> ' + value.userWon + '</td>');
+                            else
+                                $('#BidList').append('<td> No Winner </td>');
                             $('#BidList').append('</tr>');
                         });
                         
@@ -191,14 +186,11 @@
     <p>
         
     </p>
-    <table id="BidList">
-    </table>
-    <p>
-
-    </p>
     <button onclick="window.location.href='Menu.html';">
         Back
     </button>
+    <table id="BidList">
+    </table>
     
 </body>
 </html>

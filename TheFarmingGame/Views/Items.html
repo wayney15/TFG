@@ -12,6 +12,8 @@
     <header>
         The Farming Game - Items
     </header>
+    <table id="UserList">
+    </table>
     <p>
         Auto Harvest Purchase Amount:
     </p>
@@ -44,5 +46,29 @@
                 data: usercreds,
                 dataType: "json"
             });
+            $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/api/User/GetCurrentUser",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#UserList').empty();
+                        $('#UserList').append('<tr>');
+                        $('#UserList').append('<th> Money </th>');
+                        $('#UserList').append('<th> Protect Amount </th>');
+                        $('#UserList').append('</tr>');
+
+                        $('#UserList').append('<tr>');
+                        $('#UserList').append('<td> ' + data.money + '</td>');
+                        $('#UserList').append('<td> ' + data.protectAmount + '</td>');
+                        $('#UserList').append('</tr>');
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
     });
 </script>
