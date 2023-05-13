@@ -1,0 +1,133 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="Style/site.css" asp-append-version="true" />
+
+    <script>
+        $(document).ready(function () {
+            $("#SubmitPlant").click(function(){
+                var jsondata = {landid: $("#Land").val(), plantid: $("#Plant").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/Land/Plant",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata)
+                });
+            });
+            $("#SubmitHarvest").click(function(){
+                var jsondata = {landid: $("#HLand").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/Land/Harvest",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata)
+                });
+            });
+            $("#SubmitProtect").click(function(){
+                var jsondata = {landid: $("#HLand").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/Land/Protect",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata)
+                });
+            });
+            $.ajax({
+                type: "GET",
+                url: "https://localhost:7244/api/Land/GetCurrentUserLands",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#LandList').empty();
+                        $('#LandList').append('<tr>');
+                        $('#LandList').append('<th> Id </th>');
+                        $('#LandList').append('<th> Alias </th>');
+                        $('#LandList').append('<th> Plant </th>');
+                        $('#LandList').append('<th> Harvest Time </th>');
+                        $('#LandList').append('<th> Is Protected </th>');
+                        $('#LandList').append('<th> UserAlias </th>');
+                        $('#LandList').append('</tr>');
+
+                        $.each( data, function( key, value ) {
+                            if (value.harvestTime != null)
+                                var harvestdate = new Date(value.harvestTime);
+                            $('#LandList').append('<tr>');
+                            $('#LandList').append('<td> ' + value.id + '</td>');
+                            $('#LandList').append('<td> ' + value.alias + '</td>');
+                            $('#LandList').append('<td> ' + value.plant + '</td>');
+                            if (value.harvestTime != null)
+                                $('#LandList').append('<td> ' + harvestdate.getHours() + ':' + harvestdate.getMinutes() + '</td>');
+                            else
+                                $('#LandList').append('<td> N/A </td>');
+                            $('#LandList').append('<td> ' + value.isProtected + '</td>');
+                            $('#LandList').append('<td> ' + value.userAlias + '</td>');
+                            $('#LandList').append('</tr>');
+                        });
+                    
+                },
+                error: function(error){
+                    alert("Error: " + error.responseText);
+                }
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <header>
+        The Farming Game - Plant/Harvest Information
+    </header>
+
+    <div>
+        <input type="text" class="textbox" id="Land" name="Land" placeholder="LandId" />
+    </div>
+    <div>
+        <input type="text" class="textbox" id="Plant" name="Plant" placeholder="PlantId" />
+    </div>
+    <div>
+        <input type="button" value="Plant" name="Plant" id="SubmitPlant" />
+    </div>
+    <p>
+
+    </p>
+    <div>
+        <input type="text" class="textbox" id="HLand" name="HLand" placeholder="LandId" />
+    </div>
+    <div>
+        <input type="button" value="Harvest" name="Harvest" id="SubmitHarvest" />
+    </div>
+    <p>
+
+    </p>
+    <div>
+        <input type="text" class="textbox" id="PLand" name="PLand" placeholder="LandId" />
+    </div>
+    <div>
+        <input type="button" value="Protect" name="Protect" id="SubmitProtect" />
+    </div>
+    <button onclick="window.location.href='Menu.html';">
+        Back
+    </button>
+    <p>
+
+        Your Land Information:
+    </p>
+    <table id="LandList">
+    </table>
+    
+</body>
+</html>
+

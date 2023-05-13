@@ -1,0 +1,117 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="Style/site.css" asp-append-version="true" />
+
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "https://localhost:7244/api/LandBid/GetAllActiveLandBids",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                success: function(data, textStatus, xhr){
+                    console.log(data);
+                    $('#BidList').empty();
+                    $('#BidList').append('<tr>');
+                    $('#BidList').append('<th> LandId </th>');
+                    $('#BidList').append('<th> Expiration Time </th>');
+                    $('#BidList').append('</tr>');
+
+                    $.each( data, function( key, value ) {
+                        $('#BidList').append('<tr>');
+                        $('#BidList').append('<td> ' + value.landId + '</td>');
+                        $('#BidList').append('<td> ' + value.expirationTime + '</td>');
+                        $('#BidList').append('</tr>');
+                    });
+                    
+                },
+                error: function(error){
+                    alert("Error: " + error.responseText);
+                }
+            }),
+            $("#Submit").click(function(){
+                var jsondata = {landid: $("#LandId").val(), amount: $("#BidAmt").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/Bid/MakeBid",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata)
+                });
+            }),
+            $("#Refresh").click(function(){
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/api/LandBid/GetAllActiveLandBids",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                    console.log(data);
+                    $('#BidList').empty();
+                    $('#BidList').append('<tr>');
+                    $('#BidList').append('<th> LandId </th>');
+                    $('#BidList').append('<th> Expiration Time </th>');
+                    $('#BidList').append('</tr>');
+
+                    $.each( data, function( key, value ) {
+                        $('#BidList').append('<tr>');
+                        $('#BidList').append('<td> ' + value.landId + '</td>');
+                        $('#BidList').append('<td> ' + value.expirationTime + '</td>');
+                        $('#BidList').append('</tr>');
+                    });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
+            })
+        });
+    </script>
+
+</head>
+<body>
+    <header>
+        The Farming Game - Bid Information
+    </header>
+    <p>
+        
+        Bid Information:
+    </p>
+    <div>
+        <input type="text" class="textbox" id="LandId" name="LandId" placeholder="LandId" />
+    </div>
+    <div>
+        <input type="text" class="textbox" id="BidAmt" name="BidAmt" placeholder="Bid Amount" />
+    </div>
+    <div>
+        <input type="button" value="Submit" name="Submit" id="Submit" />
+    </div>
+
+    <p>
+        
+    </p>
+    <div>
+        <input type="button" value="Refresh" name="Refresh" id="Refresh" />
+    </div>
+    <table id="BidList">
+    </table>
+    <p>
+
+    </p>
+    <button onclick="window.location.href='Menu.html';">
+        Back
+    </button>
+    
+</body>
+</html>
+
