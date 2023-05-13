@@ -51,7 +51,7 @@ namespace TheFarmingGame.Repositories
         public async Task<IEnumerable<LandBid>> GetAllUnParsedLandBidsAsync()
         {
             DateTime now = DateTime.Now;
-            return await _theFarmingGameDbContext.LandBids.Where(l => l.Is_finished == false).ToListAsync();
+            return await _theFarmingGameDbContext.LandBids.Where(l => l.IsFinished == false).ToListAsync();
         }
         public async Task<IEnumerable<LandBid>> GetAllLandBidsAsync()
         {
@@ -70,7 +70,7 @@ namespace TheFarmingGame.Repositories
 
             if (result != null)
             {
-                result.Is_finished = landBid.Is_finished;
+                result.IsFinished = landBid.IsFinished;
 
                 await _theFarmingGameDbContext.SaveChangesAsync();
 

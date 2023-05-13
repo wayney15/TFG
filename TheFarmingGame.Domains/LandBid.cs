@@ -11,6 +11,7 @@ namespace TheFarmingGame.Domains
         public int Id { get; set; }
         public int LandId { get; set; }
         public DateTime ExpirationTime { get; set; }
-        public bool Is_finished { get; set; }
+        public bool IsFinished { get; set; }
+        public string? UserWon { get; set; }
     }
 }
