@@ -10,5 +10,6 @@ namespace TheFarmingGame.Domains.Response
     {
         public int LandId { get; set; }
         public DateTime ExpirationTime { get; set; }
+        public string? UserWon { get; set; }
     }
 }

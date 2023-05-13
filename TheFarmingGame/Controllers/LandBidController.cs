@@ -47,7 +47,8 @@ namespace TheFarmingGame.Controllers
                 var res = new LandBidResponse()
                 {
                     LandId = l.Id,
-                    ExpirationTime = l.ExpirationTime
+                    ExpirationTime = l.ExpirationTime,
+                    UserWon = l.UserWon
                 };
                 returnList.Add(res);
             }
@@ -76,7 +77,8 @@ namespace TheFarmingGame.Controllers
                 var res = new LandBidResponse()
                 {
                     LandId = l.Id,
-                    ExpirationTime = l.ExpirationTime
+                    ExpirationTime = l.ExpirationTime,
+                    UserWon = l.UserWon
                 };
                 returnList.Add(res);
             }
@@ -115,7 +117,8 @@ namespace TheFarmingGame.Controllers
                 var res = new LandBidResponse()
                 {
                     LandId = l.Id,
-                    ExpirationTime = l.ExpirationTime
+                    ExpirationTime = l.ExpirationTime,
+                    UserWon = l.UserWon
                 };
                 returnList.Add(res);
             }
