@@ -35,10 +35,15 @@ public class LandGeneratorService : BackgroundService
             {
                 try
                 {
-                        await _landService.GenerateNewLand();
-                        _logger.LogInformation("New Land Made");
-                        await _landBidService.GenerateNewLandBid();
-                        _logger.LogInformation("New Land Bid Made");
+                    var newLand = await _landService.GenerateNewLand();
+                    _logger.LogInformation("New Land Made");
+                    var newLandBid = new LandBid()
+                    {
+                        LandId = newLand.Id,
+                        ExpirationTime = DateTime.Now.AddMinutes(5)
+                    };
+                    await _landBidService.GenerateNewLandBid(newLandBid);
+                    _logger.LogInformation("New Land Bid Made");
                 }
                 catch (Exception ex)
                 {
