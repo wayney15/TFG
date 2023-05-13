@@ -10,14 +10,38 @@
 
     <script>
         $(document).ready(function () {
-                var usercreds = '{UserName: "' + $("#User").val() + '" , Password: "' + $("#Pass").val() + '" }';
+            var counter = 0;
+            $("#UserSearch").click(function(){
                 $.ajax({
-                    type: "POST",
-                    url: "/api/Authentication/Login",
+                    type: "GET",
+                    url: "https://localhost:7244/User/Leaderboard",
                     contentType: "application/json; charset=utf-8",
-                    data: usercreds,
-                    dataType: "json"
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                        counter = 0;
+                        console.log(data);
+                        $('#BidList').empty();
+                        $('#BidList').append('<tr>');
+                        $('#BidList').append('<th> Position </th>');
+                        $('#BidList').append('<th> Alias </th>');
+                        $('#BidList').append('<th> Money </th>');
+                        $('#BidList').append('</tr>');
+
+                        $.each( data, function( key, value ) {
+                            $('#BidList').append('<tr>');
+                            $('#BidList').append('<td> ' + counter + '</td>');
+                            $('#BidList').append('<td> ' + value.alias + '</td>');
+                            $('#BidList').append('<td> ' + value.money + '</td>');
+                            $('#BidList').append('</tr>');
+                        });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
                 });
+            })
         });
     </script>
 

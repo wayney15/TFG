@@ -16,6 +16,7 @@
                     url: "https://localhost:7244/api/Land/GetAllLands",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
                     success: function(data, textStatus, xhr){
                         console.log(data);
                         $('#LandList').empty();

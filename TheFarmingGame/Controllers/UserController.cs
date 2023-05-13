@@ -49,6 +49,34 @@ namespace TheFarmingGame.Controllers
             return Ok(returnList);
         }
 
+        [Authorize]
+        [Route("Leaderboard")]
+        [HttpGet]
+        public async Task<IActionResult> Leaderboard()
+        {
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if(userId == null)
+            {
+                return NotFound("Current user not found.");
+            }
+            var userList = await _userService.GetAllUsersExceptSelfAsync(int.Parse(userId));
+            if(userList.Count() == 0)
+            {
+                return NotFound("You are the only user");
+            }
+            var returnList = new List<LeaderboardResponse>();
+            foreach(User u in userList)
+            {
+                LeaderboardResponse lr = new LeaderboardResponse();
+                lr.Alias = u.Alias;
+                lr.Money = u.Money;
+                returnList.Add(lr);
+            }
+            returnList.Sort((x, y) => x.Money.CompareTo(y.Money));
+
+            return Ok(returnList);
+        }
+
         // GET api/<userController>/5
         [Authorize]
         [HttpGet]
@@ -72,7 +100,7 @@ namespace TheFarmingGame.Controllers
             return Ok(userResponse);
         }
 
-        
+
         // POST api/<userController>
         [HttpPost]
         public void Post([FromBody] string value)
