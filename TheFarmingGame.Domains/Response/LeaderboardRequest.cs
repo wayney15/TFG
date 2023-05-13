@@ -8,7 +8,7 @@ namespace TheFarmingGame.Domains.Requests
 {
     public class LeaderboardResponse
     {
-        public string Alias { get; set; }
+        public string? Alias { get; set; }
         public int Money { get; set; }
     }
 }

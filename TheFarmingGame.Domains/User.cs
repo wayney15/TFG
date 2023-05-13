@@ -9,7 +9,6 @@ namespace TheFarmingGame.Domains
         public string? Salt { get; set; }
         public string? Alias { get; set; }
         public int Money { get; set; }
-        public int StealAmount { get; set; }
         public int ProtectAmount { get; set; }
         public List<Land>? Lands { get; set; }
     }

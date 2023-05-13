@@ -43,7 +43,7 @@ namespace TheFarmingGame.Controllers
                     lr.UserAlias = null;
                 else
                 {
-                    var alias = (await _userService.GetUserByIdAsync((int)l.UserId)).Alias;
+                    var alias = (await _userService.GetUserByIdAsync((int)l.UserId))?.Alias;
                     lr.UserAlias = alias;
                 }
                 lr.Id = l.Id;
@@ -79,7 +79,7 @@ namespace TheFarmingGame.Controllers
                     lr.UserAlias = null;
                 else
                 {
-                    var alias = (await _userService.GetUserByIdAsync((int)l.UserId)).Alias;
+                    var alias = (await _userService.GetUserByIdAsync((int)l.UserId))?.Alias;
                     lr.UserAlias = alias;
                 }
                 lr.Id = l.Id;

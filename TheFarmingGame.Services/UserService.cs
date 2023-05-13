@@ -60,7 +60,6 @@ namespace TheFarmingGame.Services
                 Lands = null,
                 ProtectAmount = 0,
                 Salt = salt,
-                StealAmount = 0,
             };
             try
             {

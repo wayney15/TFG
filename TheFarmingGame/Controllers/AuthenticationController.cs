@@ -80,16 +80,7 @@ namespace TheFarmingGame.Controllers
                 signingCredentials: signinCredentials);
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
-            UserResponse userResponse = new UserResponse()
-            {
-                Alias = user.Alias,
-                Lands = user.Lands,
-                Money = user.Money,
-                ProtectAmount = user.ProtectAmount,
-                StealAmount = user.StealAmount,
-                token = tokenString
-                
-            };
+            AuthenticateResponse userResponse = new AuthenticateResponse(user, tokenString);
             return Ok(userResponse);
         }
 
