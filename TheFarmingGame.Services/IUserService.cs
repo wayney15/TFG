@@ -15,5 +15,6 @@ namespace TheFarmingGame.Services
         Task<IEnumerable<User>> GetAllUsersExceptSelfAsync(int selfId);
         Task<IEnumerable<User>> GetAllUsersAsync();
         Task<User?> GetUserByIdAsync(int id);
+        Task<User?> UpdateUser(User user);
     }
 }

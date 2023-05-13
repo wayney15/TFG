@@ -35,6 +35,11 @@ namespace TheFarmingGame.Controllers
             {
                 return NotFound("Current user not found.");
             }
+            var user = await _userService.GetUserByIdAsync(int.Parse(userId));
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
+            }
             var returnList = await _landBidService.GetAllActiveLandBidsAsync();
             return Ok(returnList);
         }
@@ -48,6 +53,11 @@ namespace TheFarmingGame.Controllers
             if (userId == null)
             {
                 return NotFound("Current user not found.");
+            }
+            var user = await _userService.GetUserByIdAsync(int.Parse(userId));
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
             }
             var returnList = await _landBidService.GetAllInActiveLandBidsAsync();
             return Ok(returnList);

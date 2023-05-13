@@ -14,6 +14,7 @@ namespace TheFarmingGame.Services
         Task<IEnumerable<Land>> GetAllLandAsync();
         Task<IEnumerable<Land>> GetLandByIdAsync(int Id);
         Task<IEnumerable<Land>> GetLandByUserIdAsync(int UserId);
+        Task<Land?> UpdateLand(Land land);
         Task<String> ListLands();
         Task<String> ListUserLands(string Id);
     }
