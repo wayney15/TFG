@@ -15,19 +15,16 @@
     <table id="UserList">
     </table>
     <p>
-        Auto Harvest Purchase Amount:
-    </p>
-    <div>
-        <input type="text" class="textbox" id="AutoHarv" name="AutoHarv" placeholder="Amount" />
-    </div>
-    <p>
         Protection Amount:
     </p>
     <div>
         <input type="text" class="textbox" id="Protect" name="Protect" placeholder="Amount" />
     </div>
     <div>
-        <input type="button" value="Submit" name="Submit" id="Submit" />
+        <input type="button" value="Submit" name="Submit" id="SubmitPurchase" />
+    </div>
+    <div>
+        <p id="Error"></p>
     </div>
     <button onclick="window.location.href='Menu.html';">
         Back
@@ -38,13 +35,24 @@
 
 <script>
     $(document).ready(function () {
-            var usercreds = '{AutoHarvest: "' + $("#AutoHarv").val() + '" , Protection: "' + $("#Protect").val() + '" }';
-            $.ajax({
-                type: "POST",
-                url: "https://localhost:7244/api/Gameplay/BuyItems",
-                contentType: "application/json; charset=utf-8",
-                data: usercreds,
-                dataType: "json"
+        $("#SubmitPurchase").click(function(){
+                var jsondata = {landid: $("#Protect").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/User/PurchaseProtection",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata),
+                    success: function (response) {
+                        $('#Protect').val("").delay( 500 );
+                        jQuery("#Refresh").trigger();
+                    },
+                    error: function (jqXHR, options, thrownErr) {
+                        if(jqXHR.statusText != 200)
+                            $('#Error').text(jqXHR.responseText)
+                    }
+                });
             });
             $.ajax({
                     type: "GET",

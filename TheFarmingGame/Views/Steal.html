@@ -10,6 +10,25 @@
 
     <script>
         $(document).ready(function () {
+            $("#SubmitSteal").click(function(){
+                var jsondata = {landid: $("#LandId").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/Land/Steal",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata),
+                    success: function (response) {
+                        $('#PLand').val("");
+                        jQuery("#Refresh").trigger();
+                    },
+                    error: function (jqXHR, options, thrownErr) {
+                        if(jqXHR.statusText != 200)
+                            $('#Error').text(jqXHR.responseText)
+                    }
+                });
+            });
                 $.ajax({
                     type: "GET",
                     url: "https://localhost:7244/api/Land/GetAllLands",
@@ -47,8 +66,9 @@
                         });
                         
                     },
-                    error: function(error){
-                        alert("Error: " + error.responseText);
+                    error: function(jqXHR, options, thrownErr) {
+                        if(jqXHR.statusText != 200)
+                        $('#Error').text(jqXHR.responseText)
                     }
                 });
         });
@@ -57,15 +77,30 @@
 </head>
 <body>
     <header>
-        The Farming Game - Land Information
+        The Farming Game - Steal Information
     </header>
     <p>
         
-        Land Information:
+        Steal Information:
     </p>
+    <div>
+        <input type="text" class="textbox" id="LandId" name="LandId" placeholder="LandId" />
+    </div>
+    <div>
+        <input type="button" value="Submit" name="Submit" id="SubmitSteal" />
+    </div>
+    <p>
+
+    </p>
+    <div>
+        <p id="Error"></p>
+    </div>
     <button onclick="window.location.href='Menu.html';">
         Back
     </button>
+    <p>
+
+    </p>
     <table id="LandList">
     </table>
     
