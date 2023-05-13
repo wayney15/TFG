@@ -50,6 +50,36 @@ namespace TheFarmingGame.Controllers
         }
 
         [Authorize]
+        [Route("GetCurrentUserLands")]
+        [HttpGet]
+        public async Task<IActionResult> GetCurrentUserLands()
+        {
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null)
+            {
+                return NotFound("Current user not found.");
+            }
+            var landList = await _landService.GetLandByUserIdAsync(Convert.ToInt32(userId));
+            if(landList == null)
+            {
+                return Ok();
+            }
+            var returnList = new List<LandResponse>();
+            foreach(Land l in landList)
+            {
+                LandResponse lr = new LandResponse();
+                lr.Id = l.Id;
+                lr.Alias = l.Alias;
+                lr.Level = l.Level;
+                lr.Plant = l.Plant;
+                lr.HarvestTime = l.HarvestTime;
+                lr.IsProtected = l.IsProtected;
+                returnList.Add(lr);
+            }
+            return Ok(returnList);
+        }
+
+        [Authorize]
         [HttpPost]
         [Route("Plant")]
         public async Task<IActionResult> Plant([FromBody] int landId, int plantId)
