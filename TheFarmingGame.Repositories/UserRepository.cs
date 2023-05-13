@@ -58,7 +58,7 @@ namespace TheFarmingGame.Repositories
         {
             return await _theFarmingGameDbContext.Users.ToListAsync();
         }
-        public async Task<User?> UpdateLand(User user)
+        public async Task<User?> UpdateUser(User user)
         {
             var result = await _theFarmingGameDbContext.Users
                 .FirstOrDefaultAsync(u => u.Id == user.Id);

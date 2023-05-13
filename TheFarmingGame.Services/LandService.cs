@@ -32,6 +32,11 @@ namespace TheFarmingGame.Services
             }
         }
 
+        public async Task<Land?> UpdateLand(Land land)
+        {
+            return await _landRepository.UpdateLand(land);
+        }
+
         public Task<String> ListLands()
         {
             return null;

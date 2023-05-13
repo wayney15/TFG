@@ -105,5 +105,10 @@ namespace TheFarmingGame.Services
         {
             return await _userRepository.GetUserByIdAsync(id);
         }
+
+        public async Task<User?> UpdateUser(User user)
+        {
+            return await _userRepository.UpdateUser(user);
+        }
     }
 }
