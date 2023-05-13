@@ -37,7 +37,8 @@ public class LandGeneratorService : BackgroundService
                     {
                         LandId = newLand.Id,
                         ExpirationTime = DateTime.Now.AddMinutes(interval),
-                        Is_finished = false
+                        IsFinished = false,
+                        UserWon = null
                     };
                     await _landBidService.GenerateNewLandBid(newLandBid);
                     _logger.LogInformation("New Land Bid Made");
@@ -82,10 +83,10 @@ public class LandGeneratorService : BackgroundService
                             user.Money -= max_bid.BidAmount;
                             await _userService.UpdateUser(user);
                             await _landService.UpdateLand(land_on_bid);
-                            landBid.Is_finished = true;
-                            await _landBidService.UpdateLandBid(landBid);
+                            landBid.UserWon = user.Alias;
                         }
-
+                        landBid.IsFinished = true;
+                        await _landBidService.UpdateLandBid(landBid);
                     }
                         
                     
