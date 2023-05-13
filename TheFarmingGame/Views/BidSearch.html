@@ -6,39 +6,29 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BidSearch</title>
-    <link rel="stylesheet" href="Style/site.css" asp-append-version="true" />
 
     <script>
         $(document).ready(function () {
-            $("#UserSearch").click(function(){
+            $("#LandSearch").click(function(){
                 $.ajax({
                     type: "GET",
-                    url: "https://localhost:7244/bid/GetAllBids",
+                    url: "https://localhost:7244/api/Bid/GetBidsByLandBidId",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: {landid: $("#Land").val()},
                     success: function(data, textStatus, xhr){
                         console.log(data);
                         $('#BidList').empty();
                         $('#BidList').append('<tr>');
-                        $('#BidList').append('<th> Land Id </th>');
-                        $('#BidList').append('<th> Expiration Time </th>');
-                        $('#BidList').append('<th> User Won </th>');
+                        $('#BidList').append('<th> User Alias </th>');
+                        $('#BidList').append('<th> Bid Amount </th>');
                         $('#BidList').append('</tr>');
 
                         $.each( data, function( key, value ) {
-                            if (value.expirationTime != null)
-                                var expirationDate = new Date(value.expirationTime);
                             $('#BidList').append('<tr>');
-                            $('#BidList').append('<td> ' + value.landId + '</td>');
-                            if (value.expirationTime != null)
-                                $('#BidList').append('<td> ' + expirationDate.getHours() + ':' + expirationDate.getMinutes() + '</td>');
-                            else
-                                $('#BidList').append('<td> N/A </td>');
-                            if (value.userWon != null)
-                                $('#BidList').append('<td> ' + value.userWon + '</td>');
-                            else
-                                $('#BidList').append('<td> No Winner </td>');
+                            $('#BidList').append('<td> ' + value.userAlias + '</td>');
+                            $('#BidList').append('<td> ' + value.bidAmount + '</td>');
                             $('#BidList').append('</tr>');
                         });
                     }
@@ -163,16 +153,10 @@
         Bid Information:
     </p>
     <div>
-        <input type="text" class="textbox" id="User" name="User" placeholder="UserAlias" />
-    </div>
-    <div>
-        <input type="button" value="UserSearch" name="UserSearch" id="UserSearch" />
-    </div>
-    <div>
         <input type="text" class="textbox" id="Land" name="Land" placeholder="Land" />
     </div>
     <div>
-        <input type="button" value="LandSearch" name="LandSearch" id="LandSearch" />
+        <input type="button" value="Show Bids For Land" name="LandSearch" id="LandSearch" />
     </div>
     <div>
         <input type="button" value="Active Bid Search" name="ActiveSearch" id="ActiveSearch" />
