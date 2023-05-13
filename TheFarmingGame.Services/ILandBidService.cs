@@ -9,7 +9,7 @@ namespace TheFarmingGame.Services
 {
     public interface ILandBidService
     {
-        Task GenerateNewLandBid();
+        Task GenerateNewLandBid(LandBid landBid);
         Task<LandBid?> GetLandBidByLandIdAsync(int landId);
         Task<IEnumerable<LandBid>> GetAllLandBidsByIdsAsync(List<int> ids);
         Task<IEnumerable<LandBid>> GetAllLandBidsAsync();

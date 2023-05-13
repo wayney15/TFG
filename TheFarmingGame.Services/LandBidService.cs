@@ -16,11 +16,11 @@ namespace TheFarmingGame.Services
             _landBidRepository = landBidRepository;
         }
 
-        public async Task GenerateNewLandBid()
+        public async Task GenerateNewLandBid(LandBid landBid)
         {
             try
             {
-                await _landBidRepository.CreateLandBidAsync(new LandBid());
+                await _landBidRepository.CreateLandBidAsync(landBid);
             }
             catch (Exception ex)
             {

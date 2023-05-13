@@ -16,12 +16,13 @@ namespace TheFarmingGame.Repositories
         {
             _theFarmingGameDbContext = theFarmingGameDbContext;
         }
-        public async Task CreateLandAsync(Land land)
+        public async Task<Land> CreateLandAsync(Land land)
         {
             try
             {
                 await _theFarmingGameDbContext.Lands.AddAsync(land);
                 await _theFarmingGameDbContext.SaveChangesAsync();
+                return land;
             }
             catch (DbUpdateException ex)
             {

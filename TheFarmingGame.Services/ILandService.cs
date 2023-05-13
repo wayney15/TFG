@@ -10,7 +10,7 @@ namespace TheFarmingGame.Services
 {
     public interface ILandService
     {
-        Task GenerateNewLand();
+        Task<Land> GenerateNewLand();
         Task<IEnumerable<Land>> GetAllLandAsync();
         Task<String> ListLands();
         Task<String> ListUserLands(string Id);
