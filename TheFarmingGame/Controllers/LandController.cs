@@ -343,5 +343,42 @@ namespace TheFarmingGame.Controllers
 
             return Ok("Protection used.");
         }
+
+        [Authorize]
+        [HttpPost]
+        [Route("Rename")]
+        public async Task<IActionResult> Rename([FromBody] RenameRequest renameRequest)
+        {
+            // check if user is authenticated
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null)
+            {
+                return NotFound("Current user not found.");
+            }
+            var user = await _userService.GetUserByIdAsync(int.Parse(userId));
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
+            }
+
+            if (renameRequest.LandId < 1)
+            {
+                return BadRequest("Invalid land id");
+            }
+            var targetLand = await _landService.GetLandByIdAsync(renameRequest.LandId);
+            if (targetLand == null)
+            {
+                return BadRequest("Invalid land id.");
+            }
+            if (targetLand.UserId != user.Id)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "This is not your land.");
+            }
+
+            targetLand.Alias = renameRequest.Alias;
+            await _landService.UpdateLand(targetLand);
+            return Ok("Rename successful!");
+
+        }
     }
 }
