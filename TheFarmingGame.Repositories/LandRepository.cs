@@ -58,7 +58,6 @@ namespace TheFarmingGame.Repositories
             if (result != null)
             {
                 result.Alias = land.Alias;
-                result.Level = land.Level;
                 result.Plant = land.Plant;
                 result.HarvestTime = land.HarvestTime;
                 result.IsProtected = land.IsProtected;

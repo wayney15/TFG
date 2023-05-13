@@ -40,7 +40,6 @@ namespace TheFarmingGame.Controllers
             {
                 LandResponse lr = new LandResponse();
                 lr.Alias = l.Alias;
-                lr.Level = l.Level;
                 lr.Plant = l.Plant;
                 lr.HarvestTime = l.HarvestTime;
                 lr.IsProtected = l.IsProtected;
