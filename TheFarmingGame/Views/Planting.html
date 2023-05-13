@@ -17,6 +17,7 @@
                     url: "https://localhost:7244/api/Land/Plant",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
                     data: JSON.stringify(jsondata)
                 });
             });
@@ -27,6 +28,7 @@
                     url: "https://localhost:7244/api/Land/Harvest",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
                     data: JSON.stringify(jsondata)
                 });
             });
@@ -42,7 +44,6 @@
                         $('#LandList').append('<tr>');
                         $('#LandList').append('<th> Id </th>');
                         $('#LandList').append('<th> Alias </th>');
-                        $('#LandList').append('<th> Level </th>');
                         $('#LandList').append('<th> Plant </th>');
                         $('#LandList').append('<th> Harvest Time </th>');
                         $('#LandList').append('<th> Is Protected </th>');
@@ -54,7 +55,6 @@
                             $('#LandList').append('<tr>');
                             $('#LandList').append('<td> ' + value.id + '</td>');
                             $('#LandList').append('<td> ' + value.alias + '</td>');
-                            $('#LandList').append('<td> ' + value.level + '</td>');
                             $('#LandList').append('<td> ' + value.plant + '</td>');
                             $('#LandList').append('<td> ' + value.harvesttime + '</td>');
                             $('#LandList').append('<td> ' + value.isprotected + '</td>');

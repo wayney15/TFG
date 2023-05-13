@@ -80,7 +80,7 @@ namespace TheFarmingGame.Controllers
         [Authorize]
         [HttpPost]
         [Route("Plant")]
-        public async Task<IActionResult> Plant([FromBody] int landId, int plantId)
+        public async Task<IActionResult> Plant([FromBody] PlantRequest plantrequest)
         {
             // check if user is authenticated
             var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
@@ -94,10 +94,10 @@ namespace TheFarmingGame.Controllers
                 return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
             }
 
-            var targetLand = await _landService.GetLandByIdAsync(landId);
+            var targetLand = await _landService.GetLandByIdAsync(plantrequest.landid);
             if(targetLand == null)
             {
-                return BadRequest("Invalid plant id.");
+                return BadRequest("Invalid land id.");
             }
             if(targetLand.UserId != user.Id)
             {
@@ -105,8 +105,8 @@ namespace TheFarmingGame.Controllers
             }
 
             // see if the user owns the land
-            // check if plantId is valid
-            if (plantId<=1 && plantId >= 4){
+            // check if plantid is valid
+            if (plantrequest.plantid<=1 && plantrequest.plantid >= 4){
                 return BadRequest("Invalid plant id.");
             }
 
@@ -117,8 +117,8 @@ namespace TheFarmingGame.Controllers
             }
 
             // now we can plant the land
-            targetLand.Plant = plantId;
-            switch (plantId)
+            targetLand.Plant = plantrequest.plantid;
+            switch (plantrequest.plantid)
             {
                 case 1:
                     targetLand.HarvestTime = DateTime.Now.AddMinutes(1);
@@ -143,7 +143,7 @@ namespace TheFarmingGame.Controllers
         [Authorize]
         [HttpPost]
         [Route("Harvest")]
-        public async Task<IActionResult> Harvest([FromBody] int landId)
+        public async Task<IActionResult> Harvest([FromBody] HarvestRequest harvestRequest)
         {
             // check if user is authenticated
             var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
@@ -158,7 +158,7 @@ namespace TheFarmingGame.Controllers
             }
 
 
-            var targetLand = await _landService.GetLandByIdAsync(landId);
+            var targetLand = await _landService.GetLandByIdAsync(harvestRequest.landid);
             if (targetLand == null)
             {
                 return BadRequest("Invalid plant id.");
@@ -210,7 +210,7 @@ namespace TheFarmingGame.Controllers
         [Authorize]
         [HttpPost]
         [Route("Steal")]
-        public async Task<IActionResult> Steal([FromBody] int landId)
+        public async Task<IActionResult> Steal([FromBody] int landid)
         {
             // check if user is authenticated
             var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
@@ -224,7 +224,7 @@ namespace TheFarmingGame.Controllers
                 return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
             }
 
-            var targetLand = await _landService.GetLandByIdAsync(landId);
+            var targetLand = await _landService.GetLandByIdAsync(landid);
             if (targetLand == null)
             {
                 return BadRequest("Invalid plant id.");
@@ -281,7 +281,7 @@ namespace TheFarmingGame.Controllers
         [Authorize]
         [HttpPost]
         [Route("Protect")]
-        public async Task<IActionResult> Protect([FromBody] int landId)
+        public async Task<IActionResult> Protect([FromBody] int landid)
         {
             // check if user is authenticated
             var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
@@ -295,7 +295,7 @@ namespace TheFarmingGame.Controllers
                 return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
             }
 
-            var targetLand = await _landService.GetLandByIdAsync(landId);
+            var targetLand = await _landService.GetLandByIdAsync(landid);
             if (targetLand == null)
             {
                 return BadRequest("Invalid plant id.");
