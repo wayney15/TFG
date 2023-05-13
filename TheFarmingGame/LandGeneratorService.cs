@@ -17,16 +17,6 @@ public class LandGeneratorService : BackgroundService
 
     }
 
-    public async Task StartAsync(CancellationToken stoppingToken)
-    {
-        return;
-    }
-
-    public async Task StopAsync(CancellationToken stoppingToken)
-    {
-        return;
-    }
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while(!stoppingToken.IsCancellationRequested)
