@@ -63,7 +63,7 @@ namespace TheFarmingGame.Controllers
             // now the bid is valid, add it to db
             try
             {
-                await _bidService.AddBidAsync(new Bid { LandBidId = landBid.Id, UserId = user.Id, Id = request.Amount });
+                await _bidService.AddBidAsync(new Bid { LandBidId = landBid.Id, UserId = user.Id, Id = request.Amount, BidAmount = request.Amount });
             }
             catch (Exception ex)
             {

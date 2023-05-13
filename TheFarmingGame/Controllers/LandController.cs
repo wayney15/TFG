@@ -96,18 +96,23 @@ namespace TheFarmingGame.Controllers
                 return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
             }
 
-            // see if the user owns the land
-            if (user.Lands == null || !user.Lands.Any(l => l.Id == landId))
+            var targetLand = await _landService.GetLandByIdAsync(landId);
+            if(targetLand == null)
             {
-                return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
+                return BadRequest("Invalid plant id.");
             }
+            if(targetLand.UserId != user.Id)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "This is not your land.");
+            }
+
+            // see if the user owns the land
             // check if plantId is valid
             if (plantId<=1 && plantId >= 4){
                 return BadRequest("Invalid plant id.");
             }
 
             // check if the land has anything planted
-            var targetLand = user.Lands.Where(l => l.Id == landId).First();
             if (targetLand.Plant != 0)
             {
                 return BadRequest("Land has plants already.");
@@ -154,14 +159,18 @@ namespace TheFarmingGame.Controllers
                 return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
             }
 
-            // see if the user owns the land
-            if (user.Lands == null || !user.Lands.Any(l => l.Id == landId))
+
+            var targetLand = await _landService.GetLandByIdAsync(landId);
+            if (targetLand == null)
             {
-                return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
+                return BadRequest("Invalid plant id.");
+            }
+            if (targetLand.UserId != user.Id)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "This is not your land.");
             }
 
             // check if the land has anything planted
-            var targetLand = user.Lands.Where(l => l.Id == landId).First();
             if (targetLand.Plant == 0)
             {
                 return BadRequest("Land has no plants.");
@@ -193,16 +202,133 @@ namespace TheFarmingGame.Controllers
             user.Money += gain;
             await _userService.UpdateUser(user);
             targetLand.Plant = 0;
+            targetLand.HarvestTime = null;
+            targetLand.IsProtected = false;
             await _landService.UpdateLand(targetLand);
             
             return Ok("Harvest successful, you gained " + gain.ToString() + "!");
-
         }
 
-        // DELETE api/<landController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Authorize]
+        [HttpPost]
+        [Route("Steal")]
+        public async Task<IActionResult> Steal([FromBody] int landId)
         {
+            // check if user is authenticated
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null)
+            {
+                return NotFound("Current user not found.");
+            }
+            var user = await _userService.GetUserByIdAsync(int.Parse(userId));
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
+            }
+
+            var targetLand = await _landService.GetLandByIdAsync(landId);
+            if (targetLand == null)
+            {
+                return BadRequest("Invalid plant id.");
+            }
+            if (targetLand.UserId == user.Id)
+            {
+                return BadRequest("You don't have to steal from your own lands.");
+            }
+
+            // check if the land has anything planted
+            if (targetLand.Plant == 0)
+            {
+                return BadRequest("Land has no plants.");
+            }
+
+            // check if the plant is ready to harvest
+            if (targetLand.HarvestTime > DateTime.Now)
+            {
+                return BadRequest("Plant is not ready to steal yet.");
+            }
+
+            // check if the plant is ready to harvest
+            if (targetLand.IsProtected == true)
+            {
+                return BadRequest("Land is protected.");
+            }
+
+            // add harvested gain 
+            var gain = 0;
+            switch (targetLand.Plant)
+            {
+                case 1:
+                    gain = 1000;
+                    break;
+                case 2:
+                    gain = 4000;
+                    break;
+                case 3:
+                    gain = 7000;
+                    break;
+                case 4:
+                    gain = 20000;
+                    break;
+            }
+            user.Money += gain;
+            await _userService.UpdateUser(user);
+            targetLand.Plant = 0;
+            targetLand.HarvestTime = null;
+            await _landService.UpdateLand(targetLand);
+
+            return Ok("Stealing successful, you gained " + gain.ToString() + "!");
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("Protect")]
+        public async Task<IActionResult> Protect([FromBody] int landId)
+        {
+            // check if user is authenticated
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null)
+            {
+                return NotFound("Current user not found.");
+            }
+            var user = await _userService.GetUserByIdAsync(int.Parse(userId));
+            if (user == null)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
+            }
+
+            var targetLand = await _landService.GetLandByIdAsync(landId);
+            if (targetLand == null)
+            {
+                return BadRequest("Invalid plant id.");
+            }
+            if (targetLand.UserId != user.Id)
+            {
+                return BadRequest("This is not your land.");
+            }
+
+            // check if the land has anything planted
+            if (targetLand.Plant == 0)
+            {
+                return BadRequest("Land has no plants.");
+            }
+
+            if(targetLand.IsProtected == true)
+            {
+                return BadRequest("Land is protected already.");
+            }
+
+            if(user.ProtectAmount < 1)
+            {
+                return BadRequest("You have no protection left.");
+            }
+
+            targetLand.IsProtected = true;
+            await _landService.UpdateLand(targetLand);
+            user.ProtectAmount -= 1;
+            await _userService.UpdateUser(user);
+
+            return Ok("Protection used.");
         }
     }
 }

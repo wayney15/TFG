@@ -59,7 +59,7 @@ namespace TheFarmingGame.Controllers
             {
                 return NotFound("Current user not found.");
             }
-            User user = await _userService.GetUserByIdAsync(Convert.ToInt32(userId));
+            User user = await _userService.GetUserByIdAsync(int.Parse(userId));
             UserResponse userResponse = new UserResponse()
             {
                 Alias = user.Alias,

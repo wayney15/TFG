@@ -12,6 +12,6 @@ namespace TheFarmingGame.Domains
         public int LandBidId { get; set; }
         public int UserId { get; set; }
         public int BidAmount { get; set; }
-        LandBid LandBid { get; set; }
+        LandBid? LandBid { get; set; }
     }
 }
