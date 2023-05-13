@@ -13,7 +13,7 @@
             var id = 5;
                 $.ajax({
                     type: "GET",
-                    url: "https://localhost:7244/api/User/GetUserById",
+                    url: "https://localhost:7244/api/User/GetCurrentUser",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     headers: { Authorization: "bearer " + localStorage.getItem("token")},

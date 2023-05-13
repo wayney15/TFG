@@ -50,6 +50,28 @@ namespace TheFarmingGame.Controllers
         }
 
         [Authorize]
+        [Route("GetCurrentUser")]
+        [HttpGet]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if(userId == null)
+            {
+                return NotFound("Current user not found.");
+            }
+            User user = await _userService.GetUserByIdAsync(Convert.ToInt32(userId));
+            UserResponse userResponse = new UserResponse()
+            {
+                Alias = user.Alias,
+                Lands = user.Lands,
+                Money = user.Money,
+                ProtectAmount = user.ProtectAmount,
+                StealAmount = user.StealAmount,
+            };
+            return Ok(userResponse);
+        }            
+
+        [Authorize]
         [Route("Leaderboard")]
         [HttpGet]
         public async Task<IActionResult> Leaderboard()
