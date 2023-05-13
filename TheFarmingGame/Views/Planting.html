@@ -11,7 +11,7 @@
     <script>
         $(document).ready(function () {
             $("#SubmitPlant").click(function(){
-                var jsondata = {landid: $("#Lant").val(), plantid: $("#Plant").val()};
+                var jsondata = {landid: $("#Land").val(), plantid: $("#Plant").val()};
                 $.ajax({
                     type: "POST",
                     url: "https://localhost:7244/api/Land/Plant",

@@ -41,7 +41,52 @@
                 error: function(error){
                     alert("Error: " + error.responseText);
                 }
-            });
+            }),
+            $("#Submit").click(function(){
+                var jsondata = {landid: $("#LandId").val(), amount: $("#BidAmt").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/Bid/MakeBid",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata)
+                });
+            }),
+            $("#Refresh").click(function(){
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/api/LandBid/GetAllActiveLandBids",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#BidList').empty();
+                        $('#BidList').append('<tr>');
+                        $('#BidList').append('<th> Alias </th>');
+                        $('#BidList').append('<th> Level </th>');
+                        $('#BidList').append('<th> Plant </th>');
+                        $('#BidList').append('<th> Harvest Time </th>');
+                        $('#BidList').append('<th> Is Protected </th>');
+                        $('#BidList').append('<th> UserAlias </th>');
+                        $('#BidList').append('<th> Bid Time </th>');
+                        $('#BidList').append('</tr>');
+
+                        $.each( data, function( key, value ) {
+                            $('#BidList').append('<tr>');
+                            $('#BidList').append('<td> ' + value.landalias + '</td>');
+                            $('#BidList').append('<td> ' + value.useralias + '</td>');
+                            $('#BidList').append('<td> ' + value.bidamount + '</td>');
+                            $('#BidList').append('</tr>');
+                        });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
+            })
         });
     </script>
 
@@ -55,21 +100,21 @@
         Bid Information:
     </p>
     <div>
-        <input type="text" class="textbox" id="User" name="User" placeholder="UserAlias" />
+        <input type="text" class="textbox" id="LandId" name="LandId" placeholder="LandId" />
     </div>
     <div>
-        <input type="button" value="UserSearch" name="UserSearch" id="UserSearch" />
+        <input type="text" class="textbox" id="BidAmt" name="BidAmt" placeholder="Bid Amount" />
     </div>
     <div>
-        <input type="text" class="textbox" id="Land" name="Land" placeholder="Land" />
+        <input type="button" value="Submit" name="Submit" id="Submit" />
     </div>
-    <div>
-        <input type="button" value="LandSearch" name="LandSearch" id="LandSearch" />
-    </div>
-    
+
     <p>
         
     </p>
+    <div>
+        <input type="button" value="Refresh" name="Refresh" id="Refresh" />
+    </div>
     <table id="BidList">
     </table>
     <p>
