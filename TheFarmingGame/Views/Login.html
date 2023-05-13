@@ -33,10 +33,10 @@
                 type: "GET",
                 url: "https://localhost:7244/api/Authentication/Login",
                 contentType: "application/json",
-                data: JSON.parse(usercreds),
                 dataType: "json",
+                data: {username: $("#User").val(), password: $("#Pass").val()},
                 success: function (data) {
-                    setCookies: data.token;
+                    console.log(data);
                 }
             });
         });

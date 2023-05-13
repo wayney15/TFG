@@ -53,16 +53,16 @@ namespace TheFarmingGame.Controllers
         [Route("Login")]
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromQuery] LoginRequest request)
         {
-            if (request.UserName == null || request.Password == null)
+            if (request.username == null || request.password == null)
             {
                 return BadRequest("Empty username or password.");
             }
-            var user = await _userService.LoginAsync(request.UserName, request.Password);
+            var user = await _userService.LoginAsync(request.username, request.password);
             if (user == null)
             {
-                _logger.LogError("Failed to login user: " + request.UserName + ".");
+                _logger.LogError("Failed to login user: " + request.username + ".");
                 return StatusCode(StatusCodes.Status401Unauthorized, "Incorrect username or password.");
             }
             var claims = new[] {
