@@ -5,19 +5,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Items</title>
     <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         The Farming Game - Items
     </header>
-    <p>
-        Auto Harvest Purchase Amount:
-    </p>
-    <div>
-        <input type="text" class="textbox" id="AutoHarv" name="AutoHarv" placeholder="Amount" />
-    </div>
+    <table id="UserList">
+    </table>
     <p>
         Protection Amount:
     </p>
@@ -25,7 +21,10 @@
         <input type="text" class="textbox" id="Protect" name="Protect" placeholder="Amount" />
     </div>
     <div>
-        <input type="button" value="Submit" name="Submit" id="Submit" />
+        <input type="button" value="Submit" name="Submit" id="SubmitPurchase" />
+    </div>
+    <div>
+        <p id="Error"></p>
     </div>
     <button onclick="window.location.href='Menu.html';">
         Back
@@ -36,13 +35,48 @@
 
 <script>
     $(document).ready(function () {
-            var usercreds = '{AutoHarvest: "' + $("#AutoHarv").val() + '" , Protection: "' + $("#Protect").val() + '" }';
-            $.ajax({
-                type: "POST",
-                url: "https://localhost:7244/api/Gameplay/BuyItems",
-                contentType: "application/json; charset=utf-8",
-                data: usercreds,
-                dataType: "json"
+        $("#SubmitPurchase").click(function(){
+                var jsondata = {landid: $("#Protect").val()};
+                $.ajax({
+                    type: "POST",
+                    url: "https://localhost:7244/api/User/PurchaseProtection",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    data: JSON.stringify(jsondata),
+                    success: function (response) {
+                        $('#Protect').val("").delay( 500 );
+                        jQuery("#Refresh").trigger();
+                    },
+                    error: function (jqXHR, options, thrownErr) {
+                        if(jqXHR.statusText != 200)
+                            $('#Error').text(jqXHR.responseText)
+                    }
+                });
             });
+            $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/api/User/GetCurrentUser",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#UserList').empty();
+                        $('#UserList').append('<tr>');
+                        $('#UserList').append('<th> Money </th>');
+                        $('#UserList').append('<th> Protect Amount </th>');
+                        $('#UserList').append('</tr>');
+
+                        $('#UserList').append('<tr>');
+                        $('#UserList').append('<td> ' + data.money + '</td>');
+                        $('#UserList').append('<td> ' + data.protectAmount + '</td>');
+                        $('#UserList').append('</tr>');
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
     });
 </script>

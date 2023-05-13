@@ -92,7 +92,7 @@ namespace TheFarmingGame.Controllers
                 lr.Money = u.Money;
                 returnList.Add(lr);
             }
-            returnList.Sort((x, y) => x.Money.CompareTo(y.Money));
+            returnList.Sort((x, y) => y.Money.CompareTo(x.Money));
 
             return Ok(returnList);
         }

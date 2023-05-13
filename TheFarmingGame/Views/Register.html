@@ -22,8 +22,15 @@
         <input type="text" class="textbox" id="Alias" name="Alias" placeholder="Alias"/>
     </div>
     <div>
+        <p id="Error"></p>
+    </div>
+    <div>
         <input type="button" value="Register" name="Register" id="Register" />
     </div>
+    <button onclick="window.location.href='Home.html';">
+        Back
+    </button>
+
     
 </body>
 </html>
@@ -38,7 +45,14 @@
                 url: "https://localhost:7244/api/Authentication/Register",
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                data: JSON.stringify(jsondata)
+                data: JSON.stringify(jsondata),
+                success: function (response) {
+                    window.location.href = "Login.html"
+                },
+                error: function (jqXHR, options, thrownErr) {
+                    if(jqXHR.statusText != 200)
+                        $('#Error').text(jqXHR.responseText)
+                }
             });
         });
     });

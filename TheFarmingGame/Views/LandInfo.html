@@ -5,12 +5,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Land Information</title>
     <link rel="stylesheet" href="Style/site.css" asp-append-version="true" />
 
     <script>
         $(document).ready(function () {
-            var id = 5;
                 $.ajax({
                     type: "GET",
                     url: "https://localhost:7244/api/Land/GetAllLands",
@@ -30,6 +29,8 @@
                         $('#LandList').append('</tr>');
 
                         $.each( data, function( key, value ) {
+                            if(value.userAlias == null)
+                                return;
                             if (value.harvestTime != null)
                                 var harvestdate = new Date(value.harvestTime);
                             $('#LandList').append('<tr>');
@@ -62,14 +63,11 @@
         
         Land Information:
     </p>
-    <table id="LandList">
-    </table>
-    <p>
-
-    </p>
     <button onclick="window.location.href='Menu.html';">
         Back
     </button>
+    <table id="LandList">
+    </table>
     
 </body>
 </html>
