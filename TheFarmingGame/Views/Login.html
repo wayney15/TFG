@@ -19,8 +19,14 @@
         <input type="password" class="textbox" id="Pass" name="Pass" placeholder="Password" />
     </div>
     <div>
+        <p style="color:red;" id="Error"></p>
+    </div>
+    <div>
         <input type="button" value="Login" name="Login" id="Login" />
     </div>
+    <button onclick="window.location.href='Home.html';">
+        Back
+    </button>
     
 </body>
 </html>
@@ -38,6 +44,10 @@
                 success: function (data) {
                     localStorage.setItem('token', data.token);
                     window.location.href = "Menu.html"
+                },
+                error: function (jqXHR, options, thrownErr) {
+                    if(jqXHR.statusText != 200)
+                        $('#Error').text(jqXHR.responseText)
                 }
             });
         });
