@@ -8,7 +8,6 @@ namespace TheFarmingGame.Domains.Response
 {
     public class BidResponse
     {
-        public string LandId { get; set; }
         public string UserAlias { get; set; }
         public int BidAmount { get; set; }
     }
