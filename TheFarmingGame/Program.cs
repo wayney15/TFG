@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TheFarmingGame.Controllers;
 using TheFarmingGame.Repositories;
 using TheFarmingGame.Services;
 

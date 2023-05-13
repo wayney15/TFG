@@ -99,10 +99,10 @@ namespace TheFarmingGame.Controllers
                 return NotFound("Current user not found.");
 
             var allBids = await _bidService.GetBidsByLandBidIdAsync(landBidId);
-            allBids.OrderByDescending(b => b.BidAmount).ToList();
+            var allBidsOrdered = allBids.OrderByDescending(b => b.BidAmount);
 
             var returnList = new List<BidResponse>();
-            foreach (var b in allBids)
+            foreach (var b in allBidsOrdered)
             {
                 var cur_user = await _userService.GetUserByIdAsync(b.UserId);
                 var res = new BidResponse()
