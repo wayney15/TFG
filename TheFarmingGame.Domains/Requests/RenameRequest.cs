@@ -11,7 +11,7 @@ namespace TheFarmingGame.Domains.Requests
     {
         [Required]
         [RegularExpression(@"^[A-Za-z][A-Za-z0-9_!+=?]{6,20}$", ErrorMessage = "Land alias should be 6-20 characters long with alphnumerics and _!+=?")]
-        public string Alias { get; set; }
+        public string? Alias { get; set; }
         public int LandId { get; set; }
     }
 }
