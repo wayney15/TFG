@@ -10,13 +10,36 @@
 
     <script>
         $(document).ready(function () {
-                var usercreds = '{UserName: "' + $("#User").val() + '" , Password: "' + $("#Pass").val() + '" }';
+            var counter = 0;
                 $.ajax({
-                    type: "POST",
-                    url: "/api/Authentication/Login",
+                    type: "GET",
+                    url: "https://localhost:7244/api/User/Leaderboard",
                     contentType: "application/json; charset=utf-8",
-                    data: usercreds,
-                    dataType: "json"
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                        counter = 0;
+                        console.log(data);
+                        $('#Leaderboard').empty();
+                        $('#Leaderboard').append('<tr>');
+                        $('#Leaderboard').append('<th> Position </th>');
+                        $('#Leaderboard').append('<th> Alias </th>');
+                        $('#Leaderboard').append('<th> Money </th>');
+                        $('#Leaderboard').append('</tr>');
+
+                        $.each( data, function( key, value ) {
+                            counter = counter + 1;
+                            $('#Leaderboard').append('<tr>');
+                            $('#Leaderboard').append('<td> ' + counter + '</td>');
+                            $('#Leaderboard').append('<td> ' + value.alias + '</td>');
+                            $('#Leaderboard').append('<td> ' + value.money + '</td>');
+                            $('#Leaderboard').append('</tr>');
+                        });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
                 });
         });
     </script>
@@ -29,6 +52,8 @@
     <button onclick="window.location.href='Menu.html';">
         Back
     </button>
+    <table id="Leaderboard">
+    </table>
     
 </body>
 </html>

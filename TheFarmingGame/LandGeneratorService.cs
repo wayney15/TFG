@@ -1,4 +1,4 @@
-﻿﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using TheFarmingGame.Domains;
 using TheFarmingGame.Services;
 using TheFarmingGame.Repositories;
@@ -52,7 +52,7 @@ public class LandGeneratorService : BackgroundService
                 }
             }
             _logger.LogInformation("3 New Lands Made");
-            Task.Delay(TimeSpan.FromMinutes(5)).Wait();
+            Task.Delay(TimeSpan.FromMinutes(3)).Wait();
         }
         return;
     }

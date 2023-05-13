@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TheFarmingGame.Domains;
+using TheFarmingGame.Domains.Response;
 using TheFarmingGame.Services;
 
 namespace TheFarmingGame.Controllers
@@ -11,12 +12,14 @@ namespace TheFarmingGame.Controllers
     public class LandBidController : ControllerBase
     {
         private readonly ILandBidService _landBidService;
+        private readonly ILandService _landService;
         private readonly IUserService _userService;
         private readonly IBidService _bidService;
         private readonly ILogger<LandBidController> _logger;
-        public LandBidController(ILogger<LandBidController> logger, ILandBidService landBidService, IUserService userService, IBidService bidService)
+        public LandBidController(ILogger<LandBidController> logger, ILandBidService landBidService, ILandService landService, IUserService userService, IBidService bidService)
         {
-            _landBidService = landBidService;   
+            _landBidService = landBidService;
+            _landService = landService;    
             _userService = userService;
             _bidService = bidService;
             _logger = logger;

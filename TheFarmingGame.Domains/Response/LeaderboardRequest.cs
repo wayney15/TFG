@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TheFarmingGame.Domains.Requests
 {
-    public class LoginRequest
+    public class LeaderboardResponse
     {
-        public string? username { get; set; }
-        public string? password { get; set; }
+        public string Alias { get; set; }
+        public int Money { get; set; }
     }
 }

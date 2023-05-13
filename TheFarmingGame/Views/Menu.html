@@ -7,20 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <link rel="stylesheet" href="~/Views/Style/site.css" asp-append-version="true" />
-
-    <script>
-    $(document).ready(function () {
-        $.ajax({
-            url: 'api/Authentication/TestToken',
-            type: 'GET',
-            beforeSend: function () {
-            },
-            data: {},
-            success: function () { },
-            error: function () { },
-        });
-    });
-    </script>
 </head>
 <body>
     <header>
@@ -38,8 +24,8 @@
     <button onclick="window.location.href='Items.html';">
         View Items
     </button>
-    <button onclick="window.location.href='Bids.html';">
-        View Bids
+    <button onclick="window.location.href='BidSearch.html';">
+        View Bid Information
     </button>
     <button onclick="window.location.href='Leaderboard.html';">
         View Leaderboard

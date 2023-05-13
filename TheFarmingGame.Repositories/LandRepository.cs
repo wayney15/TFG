@@ -40,6 +40,10 @@ namespace TheFarmingGame.Repositories
         {
             return await _theFarmingGameDbContext.Lands.FirstOrDefaultAsync(l => l.Id == id);
         }
+        public async Task<IEnumerable<Land>> GetLandByUserIdAsync(int UserId)
+        {
+            return await _theFarmingGameDbContext.Lands.Where(l => l.UserId == UserId).ToListAsync();
+        }
 
         public async Task<IEnumerable<Land>> GetAllLandAsync()
         {

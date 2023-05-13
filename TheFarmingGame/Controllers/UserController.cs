@@ -49,12 +49,63 @@ namespace TheFarmingGame.Controllers
             return Ok(returnList);
         }
 
+        [Authorize]
+        [Route("GetCurrentUser")]
+        [HttpGet]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if(userId == null)
+            {
+                return NotFound("Current user not found.");
+            }
+            User user = await _userService.GetUserByIdAsync(Convert.ToInt32(userId));
+            UserResponse userResponse = new UserResponse()
+            {
+                Alias = user.Alias,
+                Lands = user.Lands,
+                Money = user.Money,
+                ProtectAmount = user.ProtectAmount,
+                StealAmount = user.StealAmount,
+            };
+            return Ok(userResponse);
+        }            
+
+        [Authorize]
+        [Route("Leaderboard")]
+        [HttpGet]
+        public async Task<IActionResult> Leaderboard()
+        {
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if(userId == null)
+            {
+                return NotFound("Current user not found.");
+            }
+            var userList = await _userService.GetAllUsersAsync();
+            if(userList.Count() == 0)
+            {
+                return NotFound("You are the only user");
+            }
+            var returnList = new List<LeaderboardResponse>();
+            foreach(User u in userList)
+            {
+                LeaderboardResponse lr = new LeaderboardResponse();
+                lr.Alias = u.Alias;
+                lr.Money = u.Money;
+                returnList.Add(lr);
+            }
+            returnList.Sort((x, y) => x.Money.CompareTo(y.Money));
+
+            return Ok(returnList);
+        }
+
         // GET api/<userController>/5
         [Authorize]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(string id)
+        [HttpGet]
+        [Route("GetUserById")]
+        public async Task<IActionResult> GetUserById([FromQuery] int id)
         {
-            User user = await _userService.GetUserByIdAsync(Convert.ToInt32(id));
+            var user = await _userService.GetUserByIdAsync(id);
             if(user == null)
             {
                 return NotFound("User not found.");
@@ -66,11 +117,11 @@ namespace TheFarmingGame.Controllers
                 Money = user.Money,
                 ProtectAmount = user.ProtectAmount,
                 StealAmount = user.StealAmount,
-                
             };
 
             return Ok(userResponse);
         }
+
 
         // POST api/<userController>
         [HttpPost]

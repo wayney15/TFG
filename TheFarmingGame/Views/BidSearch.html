@@ -1,0 +1,196 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link rel="stylesheet" href="Style/site.css" asp-append-version="true" />
+
+    <script>
+        $(document).ready(function () {
+            $("#UserSearch").click(function(){
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/bid/GetAllBids",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#BidList').empty();
+                        $('#BidList').append('<tr>');
+                        $('#BidList').append('<th> Alias </th>');
+                        $('#BidList').append('<th> Level </th>');
+                        $('#BidList').append('<th> Plant </th>');
+                        $('#BidList').append('<th> Harvest Time </th>');
+                        $('#BidList').append('<th> Is Protected </th>');
+                        $('#BidList').append('<th> UserAlias </th>');
+                        $('#BidList').append('<th> Bid Time </th>');
+                        $('#BidList').append('</tr>');
+
+                        $.each( data, function( key, value ) {
+                            $('#BidList').append('<tr>');
+                            $('#BidList').append('<td> ' + value.landalias + '</td>');
+                            $('#BidList').append('<td> ' + value.useralias + '</td>');
+                            $('#BidList').append('<td> ' + value.bidamount + '</td>');
+                            $('#BidList').append('</tr>');
+                        });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
+            }),
+            $("#ActiveSearch").click(function(){
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/api/LandBid/GetAllActiveLandBids",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#BidList').empty();
+                        $('#BidList').append('<tr>');
+                        $('#BidList').append('<th> Alias </th>');
+                        $('#BidList').append('<th> Level </th>');
+                        $('#BidList').append('<th> Plant </th>');
+                        $('#BidList').append('<th> Harvest Time </th>');
+                        $('#BidList').append('<th> Is Protected </th>');
+                        $('#BidList').append('<th> UserAlias </th>');
+                        $('#BidList').append('<th> Bid Time </th>');
+                        $('#BidList').append('</tr>');
+
+                        $.each( data, function( key, value ) {
+                            $('#BidList').append('<tr>');
+                            $('#BidList').append('<td> ' + value.landalias + '</td>');
+                            $('#BidList').append('<td> ' + value.useralias + '</td>');
+                            $('#BidList').append('<td> ' + value.bidamount + '</td>');
+                            $('#BidList').append('</tr>');
+                        });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
+            }),
+            $("#InactiveSearch").click(function(){
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/api/LandBid/GetAllInActiveLandBids",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#BidList').empty();
+                        $('#BidList').append('<tr>');
+                        $('#BidList').append('<th> Alias </th>');
+                        $('#BidList').append('<th> Level </th>');
+                        $('#BidList').append('<th> Plant </th>');
+                        $('#BidList').append('<th> Harvest Time </th>');
+                        $('#BidList').append('<th> Is Protected </th>');
+                        $('#BidList').append('<th> UserAlias </th>');
+                        $('#BidList').append('<th> Bid Time </th>');
+                        $('#BidList').append('</tr>');
+
+                        $.each( data, function( key, value ) {
+                            $('#BidList').append('<tr>');
+                            $('#BidList').append('<td> ' + value.landalias + '</td>');
+                            $('#BidList').append('<td> ' + value.useralias + '</td>');
+                            $('#BidList').append('<td> ' + value.bidamount + '</td>');
+                            $('#BidList').append('</tr>');
+                        });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
+            }),
+            $("#ParticipatedSearch").click(function(){
+                $.ajax({
+                    type: "GET",
+                    url: "https://localhost:7244/api/LandBid/GetAllUserParticipatedLandBids",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
+                    success: function(data, textStatus, xhr){
+                        console.log(data);
+                        $('#BidList').empty();
+                        $('#BidList').append('<tr>');
+                        $('#BidList').append('<th> Alias </th>');
+                        $('#BidList').append('<th> Level </th>');
+                        $('#BidList').append('<th> Plant </th>');
+                        $('#BidList').append('<th> Harvest Time </th>');
+                        $('#BidList').append('<th> Is Protected </th>');
+                        $('#BidList').append('<th> UserAlias </th>');
+                        $('#BidList').append('<th> Bid Time </th>');
+                        $('#BidList').append('</tr>');
+
+                        $.each( data, function( key, value ) {
+                            $('#BidList').append('<tr>');
+                            $('#BidList').append('<td> ' + value.landalias + '</td>');
+                            $('#BidList').append('<td> ' + value.useralias + '</td>');
+                            $('#BidList').append('<td> ' + value.bidamount + '</td>');
+                            $('#BidList').append('</tr>');
+                        });
+                        
+                    },
+                    error: function(error){
+                        alert("Error: " + error.responseText);
+                    }
+                });
+            })
+        });
+    </script>
+
+</head>
+<body>
+    <header>
+        The Farming Game - Bid Information
+    </header>
+    <p>
+        
+        Bid Information:
+    </p>
+    <div>
+        <input type="text" class="textbox" id="User" name="User" placeholder="UserAlias" />
+    </div>
+    <div>
+        <input type="button" value="UserSearch" name="UserSearch" id="UserSearch" />
+    </div>
+    <div>
+        <input type="text" class="textbox" id="Land" name="Land" placeholder="Land" />
+    </div>
+    <div>
+        <input type="button" value="LandSearch" name="LandSearch" id="LandSearch" />
+    </div>
+    <div>
+        <input type="button" value="Active Bid Search" name="ActiveSearch" id="ActiveSearch" />
+    </div>
+    <div>
+        <input type="button" value="Inactive Bid Search" name="InactiveSearch" id="InactiveSearch" />
+    </div>
+    <div>
+        <input type="button" value="Participated Bid Search" name="ParticipatedSearch" id="ParticipatedSearch" />
+    </div>
+    <p>
+        
+    </p>
+    <table id="BidList">
+    </table>
+    <p>
+
+    </p>
+    <button onclick="window.location.href='Menu.html';">
+        Back
+    </button>
+    
+</body>
+</html>
+

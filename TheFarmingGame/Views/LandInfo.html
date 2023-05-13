@@ -13,13 +13,10 @@
             var id = 5;
                 $.ajax({
                     type: "GET",
-                    url: "https://localhost:7244/land/GetAllLands",
+                    url: "https://localhost:7244/api/Land/GetAllLands",
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
-                    CORS: false,
-                    headers: {
-                    "Access-Control-Allow-Origin": '*',
-                    },
+                    headers: { Authorization: "bearer " + localStorage.getItem("token")},
                     success: function(data, textStatus, xhr){
                         console.log(data);
                         $('#LandList').empty();
