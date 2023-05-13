@@ -32,6 +32,7 @@ namespace TheFarmingGame.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
+            _logger.LogInformation(request.username);
             if(request.username == null || request.password == null || request.alias == null)
             {
                 return BadRequest("Empty username, password, or alias.");
@@ -39,6 +40,7 @@ namespace TheFarmingGame.Controllers
             // need input validation
             try
             {
+                await _userService.RegisterAsync(request.username, request.password, request.alias);
                 await _userService.RegisterAsync(request.username, request.password, request.alias);
             }
             catch (Exception ex)
