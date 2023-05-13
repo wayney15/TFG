@@ -84,9 +84,9 @@ namespace TheFarmingGame.Controllers
         [Authorize]
         [Route("GetBidsByLandBidId")]
         [HttpGet]
-        public async Task<IActionResult> GetBidsByLandBidId([FromQuery] int landBidId)
+        public async Task<IActionResult> GetBidsByLandBidId([FromQuery] LandIdRequest getBidsRequest)
         {
-            if (landBidId <= 0)
+            if (getBidsRequest.landid <= 0)
                 return BadRequest("Incorrect amount.");
 
             // get user id
@@ -98,7 +98,7 @@ namespace TheFarmingGame.Controllers
             if (user == null)
                 return NotFound("Current user not found.");
 
-            var allBids = await _bidService.GetBidsByLandBidIdAsync(landBidId);
+            var allBids = await _bidService.GetBidsByLandBidIdAsync(getBidsRequest.landid);
             var allBidsOrdered = allBids.OrderByDescending(b => b.BidAmount);
 
             var returnList = new List<BidResponse>();
