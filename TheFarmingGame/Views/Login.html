@@ -36,8 +36,8 @@
                 dataType: "json",
                 data: {username: $("#User").val(), password: $("#Pass").val()},
                 success: function (data) {
-                    console.log(data);
-                    console.log(token);
+                    localStorage.setItem('token', data.token);
+                    window.location.href = "Menu.html"
                 }
             });
         });

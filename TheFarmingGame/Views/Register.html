@@ -31,13 +31,14 @@
 <script>
     $(document).ready(function () {
         $("#Register").click(function(){
-            var usercreds = '{\"username\": "' + $("#User").val() + '" , \"password\"": "' + $("#Pass").val() + '"  , \"alias\": "' + $("#Alias").val() + '"}';
+            //var usercreds = '{\"request\": {\"username\": "' + $("#User").val() + '" , \"password\": "' + $("#Pass").val() + '"  , \"alias\": "' + $("#Alias").val() + '"}}';
+            var jsondata = {username: $("#User").val(), password: $("#Pass").val(), alias: $("#Alias").val()};
             $.ajax({
                 type: "POST",
                 url: "https://localhost:7244/api/Authentication/Register",
-                contentType: "application/json",
+                contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                data: {username: $("#User").val(), password: $("#Pass").val(), alias: $("#Alias").val()}
+                data: JSON.stringify(jsondata)
             });
         });
     });
