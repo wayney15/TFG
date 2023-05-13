@@ -56,7 +56,7 @@ namespace TheFarmingGame.Services
                 UserName = username,
                 Alias = alias,
                 Password = hashedPassword,
-                Money = 0,
+                Money = 2000,
                 Lands = null,
                 ProtectAmount = 0,
                 Salt = salt,
