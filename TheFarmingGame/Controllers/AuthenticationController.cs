@@ -30,16 +30,17 @@ namespace TheFarmingGame.Controllers
         [Route("Register")]
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] string username, string password, string alias)
+        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            if(username == null || password == null || alias == null)
+            _logger.LogInformation(request.username);
+            if(request.username == null || request.password == null || request.alias == null)
             {
                 return BadRequest("Empty username, password, or alias.");
             }
             // need input validation
             try
             {
-                await _userService.RegisterAsync(username, password, alias);
+                await _userService.RegisterAsync(request.username, request.password, request.alias);
             }
             catch (Exception ex)
             {
