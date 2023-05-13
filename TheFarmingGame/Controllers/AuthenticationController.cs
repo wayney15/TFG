@@ -41,7 +41,6 @@ namespace TheFarmingGame.Controllers
             try
             {
                 await _userService.RegisterAsync(request.username, request.password, request.alias);
-                await _userService.RegisterAsync(request.username, request.password, request.alias);
             }
             catch (Exception ex)
             {
