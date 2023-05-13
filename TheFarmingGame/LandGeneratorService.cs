@@ -84,6 +84,7 @@ public class LandGeneratorService : BackgroundService
                             await _userService.UpdateUser(user);
                             await _landService.UpdateLand(land_on_bid);
                             landBid.UserWon = user.Alias;
+                            break;
                         }
                         landBid.IsFinished = true;
                         await _landBidService.UpdateLandBid(landBid);

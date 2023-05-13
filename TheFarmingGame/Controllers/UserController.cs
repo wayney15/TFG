@@ -81,7 +81,8 @@ namespace TheFarmingGame.Controllers
             var userList = await _userService.GetAllUsersAsync();
             if(userList.Count() == 0)
             {
-                return NotFound("You are the only user");
+                _logger.LogError("No user in database, this is bad.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong.");
             }
             var returnList = new List<LeaderboardResponse>();
             foreach(User u in userList)
@@ -110,6 +111,35 @@ namespace TheFarmingGame.Controllers
             UserResponse userResponse = new UserResponse(user);
 
             return Ok(userResponse);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("PurchaseProtection")]
+        public async Task<IActionResult> PurchaseProtection([FromBody] PurchaseRequest purchaseRequest)
+        {
+            const int protectionprice = 500;
+            var userId = User?.Claims?.FirstOrDefault(c => c.Type == "UserId")?.Value;
+            if (userId == null)
+            {
+                return NotFound("Current user not found.");
+            }
+            var user = await _userService.GetUserByIdAsync(int.Parse(userId));
+            if (user == null)
+            {
+                return NotFound("Current user not found.");
+            }
+
+            var totalPrice = purchaseRequest.number * protectionprice;
+            if(user.Money < totalPrice)
+            {
+                return BadRequest("You don't have enough money");
+            }
+
+            user.Money -= totalPrice;
+            user.ProtectAmount += purchaseRequest.number;
+            await _userService.UpdateUser(user);
+            return Ok("Purchase successful");
         }
     }
 }
