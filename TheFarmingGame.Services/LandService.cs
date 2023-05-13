@@ -37,15 +37,6 @@ namespace TheFarmingGame.Services
             return await _landRepository.UpdateLand(land);
         }
 
-        public Task<String> ListLands()
-        {
-            return null;
-        }
-        public Task<String> ListUserLands(string Id)
-        {
-            return null;
-        }
-
         public async Task<IEnumerable<Land>> GetAllLandAsync()
         {
             return await _landRepository.GetAllLandAsync();

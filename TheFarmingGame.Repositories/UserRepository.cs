@@ -68,7 +68,6 @@ namespace TheFarmingGame.Repositories
                 result.Lands = user.Lands;
                 result.Money = user.Money;
                 result.ProtectAmount = user.ProtectAmount;
-                result.StealAmount = user.StealAmount;
 
                 await _theFarmingGameDbContext.SaveChangesAsync();
 
