@@ -2,6 +2,7 @@
 using TheFarmingGame.Domains;
 using TheFarmingGame.Services;
 using TheFarmingGame.Repositories;
+using System.Collections.Generic;
 
 public class LandGeneratorService : BackgroundService
 {
@@ -9,6 +10,7 @@ public class LandGeneratorService : BackgroundService
     private readonly ILandService _landService;
     private readonly ILandBidService _landBidService;
     private readonly IBidService _bidService;
+    private readonly IUserService _userService;
 
     public LandGeneratorService(ILogger<LandGeneratorService> logger,  IServiceProvider _serviceProvider)
     {
@@ -16,10 +18,12 @@ public class LandGeneratorService : BackgroundService
         _landService = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILandService>();
         _landBidService = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<ILandBidService>();
         _bidService = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IBidService>();
+        _userService = _serviceProvider.CreateScope().ServiceProvider.GetRequiredService<IUserService>();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        const int interval = 1;
         while(!stoppingToken.IsCancellationRequested)
         {
             // generate new lands
@@ -32,7 +36,8 @@ public class LandGeneratorService : BackgroundService
                     var newLandBid = new LandBid()
                     {
                         LandId = newLand.Id,
-                        ExpirationTime = DateTime.Now.AddMinutes(3)
+                        ExpirationTime = DateTime.Now.AddMinutes(interval),
+                        Is_finished = false
                     };
                     await _landBidService.GenerateNewLandBid(newLandBid);
                     _logger.LogInformation("New Land Bid Made");
@@ -46,15 +51,16 @@ public class LandGeneratorService : BackgroundService
             _logger.LogInformation("3 New Lands Made");
 
             //check the old bid and process those
-            var cur_landbids = await _landBidService.GetAllActiveLandBidsAsync();
-            if(!cur_landbids.Any())
+            var cur_landbids = await _landBidService.GetAllUnParsedLandBidsAsync();
+            _logger.LogInformation("cur_landbids count: " + cur_landbids.Count().ToString());
+            if(cur_landbids.Any())
             {
                 foreach (LandBid landBid in cur_landbids)
                 {
-                    if (landBid.ExpirationTime >= DateTime.Now)
+                    if (landBid.ExpirationTime <= DateTime.Now)
                     {
-                        var cur_bids = await _bidService.GetBidsByLandBidIdAsync(landBid.Id);
-                        if (cur_bids.Any())
+                        var cur_bids = (await _bidService.GetBidsByLandBidIdAsync(landBid.Id)).ToList();
+                        while (cur_bids.Any())
                         {
                             var max_bid = cur_bids.OrderByDescending(b => b.BidAmount).First();
                             var land_on_bid = await _landService.GetLandByIdAsync(landBid.LandId);
@@ -64,8 +70,20 @@ public class LandGeneratorService : BackgroundService
                                 break;
                             }
                             land_on_bid.UserId = max_bid.UserId;
-                            await _landService.UpdateLand(land_on_bid);
+                            var user = await _userService.GetUserByIdAsync(max_bid.UserId);
 
+                            // if user doesnt have enough money, invalidate this bid
+                            if (user == null || user.Money < max_bid.BidAmount) {
+                                _logger.LogError("Bid was removed because user did not have enough money.");
+                                // TODO: add this to a history
+                                cur_bids.Remove(max_bid);
+                                continue;
+                            }
+                            user.Money -= max_bid.BidAmount;
+                            await _userService.UpdateUser(user);
+                            await _landService.UpdateLand(land_on_bid);
+                            landBid.Is_finished = true;
+                            await _landBidService.UpdateLandBid(landBid);
                         }
 
                     }
@@ -74,7 +92,7 @@ public class LandGeneratorService : BackgroundService
                 }
 
             }
-            Task.Delay(TimeSpan.FromMinutes(3)).Wait();
+            Task.Delay(TimeSpan.FromMinutes(interval)).Wait();
         }
         return;
     }

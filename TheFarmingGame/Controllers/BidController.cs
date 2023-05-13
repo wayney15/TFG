@@ -60,10 +60,16 @@ namespace TheFarmingGame.Controllers
                 if (request.Amount <= max)
                     return BadRequest("You cannot bid lower than current high.");
             }
+
+            // see if user has enough to make the bid
+            if (user.Money < request.Amount)
+            {
+                return BadRequest("You don't have enough money.");
+            }
             // now the bid is valid, add it to db
             try
             {
-                await _bidService.AddBidAsync(new Bid { LandBidId = landBid.Id, UserId = user.Id, Id = request.Amount, BidAmount = request.Amount });
+                await _bidService.AddBidAsync(new Bid { LandBidId = landBid.Id, UserId = user.Id, BidAmount = request.Amount });
             }
             catch (Exception ex)
             {

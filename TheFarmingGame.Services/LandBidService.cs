@@ -49,5 +49,13 @@ namespace TheFarmingGame.Services
         {
             return await _landBidRepository.GetAllInActiveLandBidsAsync();
         }
+        public async Task<IEnumerable<LandBid>> GetAllUnParsedLandBidsAsync()
+        {
+            return await _landBidRepository.GetAllUnParsedLandBidsAsync();
+        }
+        public async Task<LandBid?> UpdateLandBid(LandBid landBid)
+        {
+            return await _landBidRepository.UpdateLandBid(landBid);
+        }
     }
 }

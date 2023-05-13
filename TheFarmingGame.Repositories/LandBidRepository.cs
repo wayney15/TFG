@@ -46,7 +46,12 @@ namespace TheFarmingGame.Repositories
         public async Task<IEnumerable<LandBid>> GetAllActiveLandBidsAsync()
         {
             DateTime now = DateTime.Now;
-            return await _theFarmingGameDbContext.LandBids.Where(l => l.ExpirationTime < now).ToListAsync();
+            return await _theFarmingGameDbContext.LandBids.Where(l => l.ExpirationTime > now).ToListAsync();
+        }
+        public async Task<IEnumerable<LandBid>> GetAllUnParsedLandBidsAsync()
+        {
+            DateTime now = DateTime.Now;
+            return await _theFarmingGameDbContext.LandBids.Where(l => l.Is_finished == false).ToListAsync();
         }
         public async Task<IEnumerable<LandBid>> GetAllLandBidsAsync()
         {
@@ -56,7 +61,23 @@ namespace TheFarmingGame.Repositories
         public async Task<IEnumerable<LandBid>> GetAllInActiveLandBidsAsync()
         {
             DateTime now = DateTime.Now;
-            return await _theFarmingGameDbContext.LandBids.Where(l => l.ExpirationTime >= now).ToListAsync();
+            return await _theFarmingGameDbContext.LandBids.Where(l => l.ExpirationTime <= now).ToListAsync();
+        }
+        public async Task<LandBid?> UpdateLandBid(LandBid landBid)
+        {
+            var result = await _theFarmingGameDbContext.LandBids
+               .FirstOrDefaultAsync(l => l.Id == landBid.Id);
+
+            if (result != null)
+            {
+                result.Is_finished = landBid.Is_finished;
+
+                await _theFarmingGameDbContext.SaveChangesAsync();
+
+                return result;
+            }
+
+            return null;
         }
     }
 }
