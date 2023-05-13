@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TheFarmingGame.Domains;
 using TheFarmingGame.Repositories;
-using TheFarmingGame.Domains;
 
 namespace TheFarmingGame.Services
 {

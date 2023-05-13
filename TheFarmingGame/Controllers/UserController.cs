@@ -59,15 +59,12 @@ namespace TheFarmingGame.Controllers
             {
                 return NotFound("Current user not found.");
             }
-            User user = await _userService.GetUserByIdAsync(int.Parse(userId));
-            UserResponse userResponse = new UserResponse()
+            var user = await _userService.GetUserByIdAsync(int.Parse(userId));
+            if(user == null)
             {
-                Alias = user.Alias,
-                Lands = user.Lands,
-                Money = user.Money,
-                ProtectAmount = user.ProtectAmount,
-                StealAmount = user.StealAmount,
-            };
+                return Ok(null);
+            }
+            UserResponse userResponse = new UserResponse(user);
             return Ok(userResponse);
         }            
 
@@ -110,35 +107,9 @@ namespace TheFarmingGame.Controllers
             {
                 return NotFound("User not found.");
             }
-            UserResponse userResponse = new UserResponse()
-            {
-                Alias = user.Alias,
-                Lands = user.Lands,
-                Money = user.Money,
-                ProtectAmount = user.ProtectAmount,
-                StealAmount = user.StealAmount,
-            };
+            UserResponse userResponse = new UserResponse(user);
 
             return Ok(userResponse);
-        }
-
-
-        // POST api/<userController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<userController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<userController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
