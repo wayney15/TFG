@@ -40,7 +40,17 @@ namespace TheFarmingGame.Controllers
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
             }
-            var returnList = await _landBidService.GetAllActiveLandBidsAsync();
+            var landbids = await _landBidService.GetAllActiveLandBidsAsync();
+            var returnList = new List<LandBidResponse>();
+            foreach (var l in landbids)
+            {
+                var res = new LandBidResponse()
+                {
+                    LandId = l.Id,
+                    ExpirationTime = l.ExpirationTime
+                };
+                returnList.Add(res);
+            }
             return Ok(returnList);
         }
 
@@ -59,7 +69,17 @@ namespace TheFarmingGame.Controllers
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, "Not authorized.");
             }
-            var returnList = await _landBidService.GetAllInActiveLandBidsAsync();
+            var landbids = await _landBidService.GetAllInActiveLandBidsAsync();
+            var returnList = new List<LandBidResponse>();
+            foreach (var l in landbids)
+            {
+                var res = new LandBidResponse()
+                {
+                    LandId = l.Id,
+                    ExpirationTime = l.ExpirationTime
+                };
+                returnList.Add(res);
+            }
             return Ok(returnList);
         }
 
@@ -88,7 +108,17 @@ namespace TheFarmingGame.Controllers
 
             var userBids = bidList.Where(b => b.UserId == user.Id).GroupBy(b => b.LandBidId).Select(b => b.Key).ToList();
 
-            var returnList = await _landBidService.GetAllLandBidsByIdsAsync(userBids);
+            var landbids = await _landBidService.GetAllLandBidsByIdsAsync(userBids);
+            var returnList = new List<LandBidResponse>();
+            foreach (var l in landbids)
+            {
+                var res = new LandBidResponse()
+                {
+                    LandId = l.Id,
+                    ExpirationTime = l.ExpirationTime
+                };
+                returnList.Add(res);
+            }
             return Ok(returnList);
         }
     }
