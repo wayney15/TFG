@@ -130,6 +130,10 @@ namespace TheFarmingGame.Controllers
                 return NotFound("Current user not found.");
             }
 
+            if (purchaseRequest == null || purchaseRequest.number < 1)
+            {
+                return BadRequest("Please input a valid number");
+            }
             var totalPrice = purchaseRequest.number * protectionprice;
             if(user.Money < totalPrice)
             {
