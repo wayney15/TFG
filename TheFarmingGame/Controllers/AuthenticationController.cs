@@ -31,7 +31,6 @@ namespace TheFarmingGame.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            _logger.LogInformation(request.username);
             if(request.username == null || request.password == null || request.alias == null)
             {
                 return BadRequest("Empty username, password, or alias.");
@@ -85,7 +84,7 @@ namespace TheFarmingGame.Controllers
             var tokeOptions = new JwtSecurityToken(issuer: _configuration["JWT:ValidIssuer"], 
                 audience: _configuration["JWT:ValidAudience"], 
                 claims: claims, 
-                expires: DateTime.Now.AddMinutes(30), 
+                expires: DateTime.Now.AddMinutes(10), 
                 signingCredentials: signinCredentials);
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
 
