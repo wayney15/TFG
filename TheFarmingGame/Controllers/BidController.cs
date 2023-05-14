@@ -108,7 +108,7 @@ namespace TheFarmingGame.Controllers
                 var res = new BidResponse()
                 {
                     BidAmount = b.BidAmount,
-                    UserAlias = user.Alias
+                    UserAlias = cur_user.Alias
                 };
                 returnList.Add(res);
             }
