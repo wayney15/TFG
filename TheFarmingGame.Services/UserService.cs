@@ -36,13 +36,13 @@ namespace TheFarmingGame.Services
 
         private static string Hash(string password)
         {
-            using (var sha256 = SHA256.Create())
-            {
-                var passwordByte = Encoding.UTF8.GetBytes(password);
-                var hash = sha256.ComputeHash(passwordByte);
-                return Convert.ToBase64String(hash);
-            }
-
+            var argon2 = new Argon2id(Encoding.UTF8.GetBytes(password)); 
+            argon2.DegreeOfParallelism = 24;
+            argon2.KnownSecret = Encoding.UTF8.GetBytes("ISA681");
+            // argon2.AssociatedData = Should be userID
+            argon2.Iterations = 24;
+            argon2.MemorySize = 4096;
+            return Convert.ToBase64String(argon2.GetBytes(256));
         }
 
         public async Task RegisterAsync(string username, string password, string alias)
