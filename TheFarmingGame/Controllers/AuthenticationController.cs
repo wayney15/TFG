@@ -36,7 +36,16 @@ namespace TheFarmingGame.Controllers
             {
                 return BadRequest("Empty username, password, or alias.");
             }
-            // need input validation
+            var valid = false;
+            // need input validation _!+=?
+            if (request.password.Contains("_") || request.password.Contains("!") || request.password.Contains("+") || request.password.Contains("=") || request.password.Contains("?"))
+            {
+                valid = true;
+            }
+            if (!valid)
+            {
+                return BadRequest("Password must include at least one special character");
+            }
             try
             {
                 await _userService.RegisterAsync(request.username, request.password, request.alias);
